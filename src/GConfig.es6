@@ -7,29 +7,28 @@ import del from "del";
 
 // noinspection JSUnusedLocalSymbols
 /**
- * @name gConfig
+ * @name GConfig
  * @author 'Anthony Trimble red2678@gmail.com'
  * @since '11/14/2015'
  *
- * @class gConfig
- * @classdesc Creates a new gConfig.
+ * @class GConfig
+ * @classdesc Creates a new GConfig.
  *
- * @exports gConfig
+ * @exports GConfig
  * @requires  module:npath
  * @requires  module:del
  *
- * @example const mainConfig = new gConfig({
+ * @example const mainConfig = new GConfig({
  *     showDeleted : false,
  *     liveReload : true
  *   });
  */
-export default class gConfig {
+export default class GConfig {
 
-  DS:string;
   env:string;
   site:string;
 
-  rootDir:string;
+  root:string;
   srcDir:string;
   buildDir:string;
   latestDir:string;
@@ -45,12 +44,11 @@ export default class gConfig {
   serverOptionsConfig:object;
 
   /**
-   * Creates a gConfig object
+   * Creates a GConfig object
    * @param {Object} [config={}] - Options to initialize the component with
    * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerDir}
    * @param {!string} [config.buildDir="./_BUILDS/dev/mainSite/"] - See {@link buildDir}
    * @param {!string} [config.docs="./_DOCS/"] - See {@link docs}
-   * @param {!string} [config.DS="/"] - See {@link DS}
    * @param {!string} [config.env="dev"] - See {@link env}
    * @param {!string} [config.latestDir="./_LATEST/"] - See {@link latestDir}
    * @param {!boolean} [config.liveReload="true"] - See {@link liveReload}
@@ -63,49 +61,73 @@ export default class gConfig {
    * @param {!object} [config.sources="{}"] - See {@link sources}
    * @param {!string} [config.srcDir="./_SRC/dev/"] - See {@link srcDir}
    */
-  constructor(config:object = {}) {
+  constructor(config:object = {}):GConfig {
+
     /**
-     * Default value :: './bower_components/'<br>
-     * The project bower directory
-     * @type {string}
-     * @example './bower_components/'
+     * Default value :: './'<br>
+     * The project root directory
+     * @type {object}
+     * @example './'
      */
-    this.bowerDir = this.rootDir + (config.bowerDir || 'bower_components') + this.DS;
-    /**
-     * Default value :: './_BUILDS/dev/mainSite/'<br>
-     * The project builds directory
-     * @type {string}
-     * @example './_BUILDS/dev/mainSite/'
-     */
-    this.buildDir = this.rootDir + (config.buildDir || '_BUILDS') + this.DS + this.env + this.DS + this.site + this.DS;
-    /**
-     * Default value :: './_DOCS/'<br>
-     * The project docs directory
-     * @type {string}
-     * @example './_DOCS/'
-     */
-    this.docsDir = this.rootDir + (config.docsDir || '_DOCS') + this.DS;
-    /**
-     * Default value :: '/'<br>
-     * The OS directory separator, obtained via nPath or set manually when passed in.
-     * @type {string}
-     * @example '/'
-     */
-    this.DS = nPath.sep || '/';
+    this.root = (config.root || '.') + nPath.sep;
+
     /**
      * Default value :: 'dev'<br>
      * The project environment from the NODE_ENV environmental variable.
      * @type {string}
      * @example 'dev'
      */
-    this.env = (config.env || (process.env.NODE_ENV || 'dev')).toLowerCase();
+    this.env = (config.env || process.env.NODE_ENV) ? (config.env || (process.env.NODE_ENV || 'dev')).toLowerCase() : '';
+
     /**
-     * Default value :: './_LATEST/'<br>
-     * The project latest directory, the location of the latest releases
+     * Default value :: 'mainSite'<br>
+     * The project site from env.TAGGLISH_SITE
      * @type {string}
-     * @example './_LATEST/'
+     * @example 'mainSite'
      */
-    this.latestDir = this.rootDir + (config.latestDir || '_LATEST') + this.DS + this.env + this.DS + this.site + this.DS;
+    this.srcSubFolder = (config.srcSubFolder || process.env.GCONFIG_SRCSUB) ? config.srcSubFolder || (process.env.GCONFIG_SRCSUB).toLowerCase() + nPath.sep : '';
+
+    /**
+     * Default value :: './builds/dev/mainSite/'<br>
+     * The project builds directory
+     * @type {string}
+     * @example './builds/dev/mainSite/'
+     */
+    this.builds = this.root  + (config.builds || 'builds') + nPath.sep +
+      ((this.env) ? this.env + nPath.sep : '') + this.srcSubFolder;
+
+    /**
+     * Default value :: './_SRC/'<br>
+     *  The project source directory
+     * @type {string}
+     * @example './_SRC/'
+     */
+    this.src = this.root + (config.src || 'src') + nPath.sep + this.srcSubFolder;
+
+    /**
+     * Default value :: './docs/'<br>
+     * The project docs directory
+     * @type {string}
+     * @example './_DOCS/'
+     */
+    this.docs = this.root + (config.docs || 'docs') + nPath.sep;
+
+    /**
+     * Default value :: './bower_components/'<br>
+     * The project bower directory
+     * @type {string}
+     * @example './bower_components/'
+     */
+    this.bower = this.root + (config.bower || 'bower_components') + nPath.sep;
+
+    /**
+     * Default value :: './node_modules/'<br>
+     * The project node modules directory
+     * @type {string}
+     * @example './node_modules/'
+     */
+    this.nodeModules = this.root + (config.nodeModules || 'node_modules') + nPath.sep;
+
     /**
      * Default value :: true<br>
      * Whether or not to use gulp live reload
@@ -113,13 +135,7 @@ export default class gConfig {
      * @example true
      */
     this.liveReload = config.liveReload || true;
-    /**
-     * Default value :: './node_modules/'<br>
-     * The project node modules directory
-     * @type {string}
-     * @example './node_modules/'
-     */
-    this.nodeModulesFolder = this.rootDir + (config.nodeModulesFolder || 'node_modules') + this.DS;
+
     /**
      * Default value :: false<br>
      * Whether or not to use produce build artifacts
@@ -127,25 +143,24 @@ export default class gConfig {
      * @example false
      */
     this.produceArtifacts = config.produceArtifacts || false;
+
     /**
-     * Default value :: './'<br>
-     * The project root directory
-     * @type {object}
-     * @example './'
-     */
-    this.rootDir = (config.rootDir || '.') + this.DS;
-    /**
-     * Default value :: see example<br>
+     * Default value :: see example. If overriding all fields are required.<br>
      * Container for gulp-connect server options
      * @type {object}
      * @example
      * {
-		 *    root : this.buildUrl_(),
+		 *    root :'./builds/v1/dev/',
 		 *    livereload : true,
 		 *    port : 64033
 		 * }
      */
-    this.serverOptionsConfig = config.serverOptionsConfig || {};
+    this.serverOptions = config.serverOptions || {
+        root: this.builds + this.srcSubFolder + ((this.env) ? this.env + nPath.sep : ''),
+        livereload: this.liveReload,
+        port: 64033
+      };
+
     /**
      * Default value :: false<br>
      * Whether or not to show deleted gulp files in the console
@@ -153,13 +168,7 @@ export default class gConfig {
      * @example false
      */
     this.showDeleted = config.showDeleted || false;
-    /**
-     * Default value :: 'mainSite'<br>
-     * The project site from env.TAGGLISH_SITE
-     * @type {string}
-     * @example 'mainSite'
-     */
-    this.site = (config.site || process.env.GCONFIG_SITE) ? config.site || (process.env.GCONFIG_SITE || 'mainSite').toLowerCase() : '';
+
     /**
      * Default value :: {}<br>
      * Container for source paths
@@ -167,13 +176,6 @@ export default class gConfig {
      * @example '{}'
      */
     this.sources = config.sources || {};
-    /**
-     * Default value :: './_SRC/'<br>
-     *  The project source directory
-     * @type {string}
-     * @example './_SRC/'
-     */
-    this.srcDir = this.rootDir + (config.srcDir || '_SRC') + this.DS + this.site + this.DS;
   }
 
   /**
@@ -191,18 +193,18 @@ export default class gConfig {
    * Wraps node del.sync in {@link logDeleted}
    * @param {Array<string>} files=[] - The files to be delted, accepts GLOB patterns.
    * @returns {void}
-   * @example const config = new gConfig();
+   * @example const config = new GConfig();
    * config.deleteFiles(['folder/file.html', 'folder/file.css', 'folder/folder-two/*.js']) //synchronous action
    */
   deleteFiles(files:Array<string> = []):void {
-    this.logDeleted(del.sync(files));
+    this.logDeleted_(del.sync(files));
   }
 
   /**
    * Basic getter
    * @param {string} property - the property to get
    * @returns {*} - found property or undefined
-   * @example const config = new gConfig();
+   * @example const config = new GConfig();
    * const style = config.get('someProperty');
    */
   get(property:string = ''):any {
@@ -210,113 +212,11 @@ export default class gConfig {
   }
 
   /**
-   * Returns a path comprised of the base path to the Bower directory and the passed in supplemental path.
-   * @param {string} dir='' - The supplemental path
-   * @returns {string} - The generated path
-   * @example const config = new gConfig();
-   * const jqueryPath = config.getBowerDir('jquery/dist/jquery.min.js');
-   * jqueryPath === './bower_folder/jquery/dist/jquery.min.js';
-   */
-  getBowerDir(dir:string = ''):string {
-    return this.bowerDir + dir;
-  }
-
-  /**
-   * Returns a path comprised of the current {@link buildDir} and the passed in supplemental path.
-   * @param {string} dir=''- The supplemental path
-   * @returns {string} - The generated path
-   * @example const config = new gConfig();
-   * const allBuildCssFiles = config.getBuildDir('css/*.css');
-   * allBuildCssFiles = './_BUILDS/dev/mainSite/css/*.css';
-   */
-  getBuildDir(dir:string = ''):string {
-    return this.buildDir + this.env + this.DS + this.site + this.DS + dir;
-  }
-
-  /**
-   * Returns the path to the {@link latest} directory and all files contained therin.
-   * @returns {string} - The generated path
-   * @example const config = new gConfig();
-   * const latestBuildDir = config.getLatestBuild();
-   * latestBuildDir === './_LATEST/';
-   */
-  getLatestBuild():string {
-    return this.latestDir + this.env + '/**';
-  }
-
-  /**
-   * Returns a path comprised of {@link nodeModulesFolder} and the passed in supplemental path.
-   * @param {string} dir='' - The supplemental path
-   * @returns {string} - The generated path
-   * @example const config = new gConfig();
-   * const esdocPath = config.getNodeDir('esdoc-es7-plugin/out/src/Plugin.js');
-   * esdocPath === './node_modules/esdoc-es7-plugin/out/src/Plugin.js';
-   */
-  getNodeDir(dir:string = ''):string {
-    return this.nodeModulesFolder + dir;
-  }
-
-  /**
-   * Returns a path comprised of the {@link rootDir} and the passed in supplemental path.
-   * @param {string} dir=''- The supplemental path
-   * @returns {string} - The generated path
-   * @example const config = new gConfig();
-   * const file = config.getRootDir('someFolder/file.js');
-   * file === './someFolder/file.js';
-   */
-  getRootDir(dir:string = ''):string {
-    return this.rootDir + dir;
-  }
-
-  /**
-   * Returns the current configuration object for gulp-connect
-   * @returns {{root: string, livereload: boolean, port: number}}
-   * @example const config = new gConfig();
-   * const serverConfig = config.getServerOptions();
-   * serverConfig = {
-	 *  root : './_BUILDS/dev/mainSite/',
-	 *  livereload : true,
-	 *  port : 64033
-	 * }
-   */
-  getServerOptions():object {
-    const self = this;
-    return {
-      root: self.buildDir + self.DS + self.site + self.DS + self.env + self.DS,
-      livereload: self.liveReload,
-      port: 64033
-    }
-  }
-
-  /**
-   * Returns a path comprised of the {@link srcDir} and the passed in supplemental path.
-   * @param {string} dir=''- The supplemental path
-   * @returns {string} - The generated path
-   * @example const config = new gConfig();
-   * const allSourceJadeFiles  = config.getSrcDir('templates/*.jade');
-   * allSourceJadeFiles === './_SRC/mainSite/templates/*.jade'
-   */
-  getSrcDir(dir:string = ''):string {
-    return this.srcDir + dir;
-  }
-
-  /**
-   *
-   * @param message
-   * @returns {string}
-   */
-  log(message:string):string {
-    return '\n********************************************\n' +
-      'LOG :: ' + message +
-      '\n********************************************';
-  }
-
-  /**
    *
    * @param paths
    * @param location
    */
-  logDeleted(paths:Array<string>, location:string = ''):void {
+  logDeleted_(paths:Array<string>, location:string = ''):void {
     if (this.showDeleted) {
       console.log(
         '\n******************************* *************\n' +
@@ -327,10 +227,23 @@ export default class gConfig {
   }
 
   /**
+   * Returns a path comprised of the base path to the Bower directory and the passed in supplemental path.
+   * @param {string} dir='' - The supplemental path
+   * @param supplementalPath
+   * @returns {string} - The generated path
+   * @example const config = new GConfig();
+   * const jqueryPath = config.getBowerDir('jquery/dist/jquery.min.js');
+   * jqueryPath === './bower_folder/jquery/dist/jquery.min.js';
+   */
+  path(dir:string = '.', supplementalPath:string = ''):string {
+    return this[dir] + supplementalPath;
+  }
+
+  /**
    * Get current SASS style based on environment ({@link env}). If "production" or "ppe" style is compressed, all
    * other cases style is expanded.
    * @returns {string} 'compressed' || 'expanded'
-   * @example const config = new gConfig();
+   * @example const config = new GConfig();
    * const sassStyle = config.sassStyle();
    * sassStyle === 'expanded'
    */
@@ -342,12 +255,12 @@ export default class gConfig {
    * Class setter, returns instance to allow chaining
    * @param {string} property - The proeprty to set
    * @param {*} value - The value to assign to the property
-   * @returns {gConfig} - Returns the object instance
-   * @example const config = new gConfig();
+   * @returns {GConfig} - Returns the object instance
+   * @example const config = new GConfig();
    * const value = config.set('someProperty', true).get('someProperty');
    * value === true;
    */
-  set(property:string, value:any):gConfig {
+  set(property:string, value:any):GConfig {
     this[property] = value;
     return this;
   }
