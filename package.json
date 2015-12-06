@@ -2,7 +2,7 @@
   "name": "gConfig",
   "description": "Configuration helper for Gulp",
   "version": "0.1.0",
-  "main": "lib/index.js",
+  "main": "dist/main.min.js",
   "author": "red2678",
   "repository": "red2678/gConfig",
   "license": "MIT",
@@ -13,12 +13,31 @@
     "test": "babel-node ./node_modules/.bin/isparta cover _mocha"
   },
   "devDependencies": {
-    "babel-cli": "*",
+    "babel-cli": "^6.1.18",
+    "babel-plugin-transform-class-properties": "^6.3.2",
+    "babel-plugin-transform-flow-strip-types": "^6.1.18",
+    "babel-plugin-transform-strict-mode": "^6.3.13",
     "babel-preset-es2015-node4": "*",
-    "coveralls": "*",
+    "esdoc-es7-plugin": "0.0.3",
+    "eslint": "^1.9.0",
+    "eslint-config-airbnb": "^1.0.0",
     "chai": "*",
+    "coveralls": "*",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-esdoc": "^0.1.0",
+    "gulp-eslint": "^1.1.0",
+    "gulp-if": "^2.0.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
     "isparta": "*",
     "mocha": "*",
     "sinon": "*"
+  },
+  "dependencies": {
+    "del": "^2.1.0",
+    "path": "^0.12.7"
   }
 }
