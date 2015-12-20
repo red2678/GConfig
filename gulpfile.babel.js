@@ -10,11 +10,13 @@ import esDoc from 'gulp-esdoc';
 import gutil from 'gulp-util';
 import gulpif from 'gulp-if';
 import plumber from 'gulp-plumber';
+import rename from 'gulp-rename';
 import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 
 // Config
 gc.subFolder = 'v1';
+gc.environment = 'dev';
 gc.liveReload = false;
 gc.sourceFiles = {
   js: [
@@ -44,16 +46,17 @@ gulp.task('dev', [
 ]);
 
 gulp.task('watch', () => {
-  gulp.watch(config.sourceFiles.js, [ 'js']);
+  gulp.watch(gc.sourceFiles.js, ['js']);
 });
 
 //////////
 
+gulp.task('changeToProd', () => {
+  gc.environment = 'prod';
+});
+
 gulp.task('clean', () => {
-  gc.deleteFiles([
-    gc.builds + '**/*',
-    '!' + gc.builds + '.gitignore'
-  ])
+  gc.deleteFiles([gc.build + '**/*'])
 });
 
 gulp.task('docs', () => {
@@ -70,33 +73,31 @@ gulp.task('docs', () => {
       includes: ['\\.(es6)$'],
       coverage: true,
       includeSource: true,
-      plugins: [
-        {
-          name: 'esdoc-es7-plugin'
-        }
-      ]
+      plugins: [{name: 'esdoc-es7-plugin'}]
     }));
 });
 
 gulp.task('js', () => {
 
-  gc.deleteFiles([gc.builds + 'main.min.js']);
+  gc.deleteFiles([gc.build + 'main.min.js']);
 
   return gulp.src(gc.sourceFiles.js, {
       base: gc.source
     })
     .pipe(plumber())
     .pipe(gulpif(gc.environment === 'dev', sourcemaps.init()))
-    .pipe(concat('main.min.js'))
+    .pipe(concat('main.js'))
+    .pipe(gulpif(gc.environment === 'dev', sourcemaps.write()))
+    .pipe(gulp.dest(gc.build))
+    .pipe(rename("main.min.js"))
     .pipe(uglify({
       comments: gc.environment === 'dev' || gc.environment === undefined
         ? 'all' : 'none'
     }))
-    .pipe(gulpif(gc.environment === 'dev', sourcemaps.write()))
-    .pipe(gulp.dest(gc.builds));
+    .pipe(gulp.dest(gc.build));
 });
 
-gulp.task('createRelease', ['js'], () => {
-  return gulp.src(gc.builds + '**/**')
+gulp.task('createRelease', ['changeToProd', 'js'], () => {
+  return gulp.src(gc.build + '**/**')
     .pipe(gulp.dest('./dist'));
 });

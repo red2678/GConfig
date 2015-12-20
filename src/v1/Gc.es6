@@ -10,7 +10,7 @@ export default (function() {
 
   // Private variables
   var _bowerFolder:string,
-    _builds:string,
+    _build:string,
     _docsFolder:string,
     _environment:string,
     _liveReload:Boolean,
@@ -70,7 +70,7 @@ export default (function() {
     constructor(config:object = {}):GConfig {
 
       _bowerFolder = config.bowerFolder || 'bower_components';
-      _builds = config.buildFolder || 'builds';
+      _build = config.buildFolder || 'builds';
       _docsFolder = config.docsFolder || 'docs';
       _environment = config.environment || process.env.NODE_ENV;
       _liveReload = config.liveReload || true;
@@ -150,13 +150,13 @@ export default (function() {
      * @type {string}
      * @example './builds/dev/mainSite/'
      */
-    get builds():string {
-      return this.root + _builds + nPath.sep + ((this.environment) ? this.environment + nPath.sep : '') + this.subFolder;
+    get build():string {
+      return this.root + _build + nPath.sep + ((this.environment) ? this.environment + nPath.sep : '') + this.subFolder;
     }
 
-    set builds(value:string):void {
+    set build(value:string):void {
       if (value) {
-        _builds = value;
+        _build = value;
       }
     }
 
