@@ -33,10 +33,20 @@ export default (function() {
    * @requires  path
    * @requires  del
    *
-   * @example const mainConfig = new GConfig({
-   *     showDeleted : false,
-   *     liveReload : true
-   *   });
+   * @example
+   * g$.bowerFolder = 'bower_components';
+   * g$.buildsFolder = 'builds';
+   * g$.docsFolder = 'docs';
+   * g$.liveReload = false;
+   * g$.nodeFolder = 'node_modules';
+   * g$.rootFolder = '.';
+   * g$.sourceFolder = 'src';
+   * g$.sourceFiles = {
+   * js: [
+   *  g$.source + '*.js'
+   * ]};
+   * g$.showDeleted = false;
+   * g$.subFolder = 'v1';
    */
   // noinspection JSUnusedLocalSymbols
   return new class Gc {
