@@ -50,7 +50,7 @@ exports.default = (function () {
      * Creates a GConfig object
      * @param {Object} [config={}] - Options to initialize the component with
      * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerFolder}
-     * @param {!string} [config.buildsFolder="./_BUILDS/dev/mainSite/"] - See {@link buildFolder}
+     * @param {!string} [config.buildFolder="./_BUILDS/dev/mainSite/"] - See {@link buildFolder}
      * @param {!string} [config.docsFolder="./_DOCS/"] - See {@link docs}
      * @param {!string} [config.environment="dev"] - See {@link env}
      * @param {!boolean} [config.liveReload="true"] - See {@link liveReload}
@@ -70,7 +70,7 @@ exports.default = (function () {
       _classCallCheck(this, Gc);
 
       _bowerFolder = config.bowerFolder || 'bower_components';
-      _build = config.buildsFolder || 'builds';
+      _build = config.buildFolder || 'builds';
       _docsFolder = config.docsFolder || 'docs';
       _environment = config.environment || process.env.NODE_ENV;
       _liveReload = config.liveReload || true;
