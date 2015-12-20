@@ -21,9 +21,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// noinspection JSUnusedLocalSymbols
-
 exports.default = (function () {
+
+  // Private variables
   var _bowerFolder, _build, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
 
   /**
@@ -35,32 +35,33 @@ exports.default = (function () {
    * @classdesc Creates a new GConfig.
    *
    * @exports Gc
-   * @requires  module:npath
-   * @requires  module:del
+   * @requires  path
+   * @requires  del
    *
    * @example const mainConfig = new GConfig({
    *     showDeleted : false,
    *     liveReload : true
    *   });
    */
+  // noinspection JSUnusedLocalSymbols
   return new ((function () {
 
     /**
      * Creates a GConfig object
      * @param {Object} [config={}] - Options to initialize the component with
-     * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerDir}
-     * @param {!string} [config.buildFolder="./_BUILDS/dev/mainSite/"] - See {@link buildDir}
+     * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerFolder}
+     * @param {!string} [config.buildFolder="./_BUILDS/dev/mainSite/"] - See {@link buildFolder}
      * @param {!string} [config.docsFolder="./_DOCS/"] - See {@link docs}
      * @param {!string} [config.environment="dev"] - See {@link env}
      * @param {!boolean} [config.liveReload="true"] - See {@link liveReload}
      * @param {!string} [config.nodeFolder="./node_modules/"] - See {@link nodeModulesFolder}
-     * @param {!string} [config.rootFolder='./'] - See {@link rootDir}
+     * @param {!string} [config.rootFolder='./'] - See {@link rootFolder}
      * @param {!object} [config.serverConfig="{}"] - See {@link serverConfig}
      * @param {!boolean} [config.showDeleted="false"] - See {@link showDeleted}
      * @param {!string} [config.site="mainSite"] - See {@link site}
      * @param {!object} [config.sources="{}"] - See {@link sources}
-     * @param {!string} [config.sourceFolder="./_SRC/dev/"] - See {@link srcDir}
-     * @param {!string} [config.subFolder="./_SRC/v1/"] - See {@link srcDir}
+     * @param {!string} [config.sourceFolder="./_SRC/dev/"] - See {@link sourceFolder}
+     * @param {!string} [config.subFolder="./_SRC/v1/"] - See {@link subFolder}
      */
 
     function Gc() {
@@ -71,15 +72,15 @@ exports.default = (function () {
       _bowerFolder = config.bowerFolder || 'bower_components';
       _build = config.buildFolder || 'builds';
       _docsFolder = config.docsFolder || 'docs';
-      _environment = Gc.environment || process.env.NODE_ENV;
-      _liveReload = Gc.liveReload || true;
+      _environment = config.environment || process.env.NODE_ENV;
+      _liveReload = config.liveReload || true;
       _nodeFolder = config.nodeFolder || 'node_modules';
       _rootFolder = config.rootFolder || '.';
-      _sassStyle = Gc.sassStyle;
+      _sassStyle = config.sassStyle;
       _sourceFolder = config.sourceFolder || 'src';
       _serverConfig = config.serverConfig || {
-        root: this.builds + (Gc.environment ? Gc.environment + _path2.default.sep : ''),
-        livereload: Gc.liveReload,
+        root: this.build + (this.environment ? this.environment + _path2.default.sep : ''),
+        livereload: this.liveReload,
         port: 64033
       };
       _showDeleted = config.showDeleted || false;
@@ -92,7 +93,6 @@ exports.default = (function () {
      *
      * @private
      * @param paths
-     * @param location
      */
 
     /**
@@ -111,8 +111,8 @@ exports.default = (function () {
       }
 
       /**
-       * Wraps node del.sync in {@link logDeleted}
-       * @param {Array<string>} files=[] - The files to be delted, accepts GLOB patterns.
+       * Wraps node del.sync in {@link _logDeleted}
+       * @param {Array<string>} files=[] - The files to be deleted, accepts GLOB patterns.
        * @returns {void}
        * @example const config = new GConfig();
        * config.deleteFiles(['folder/file.html', 'folder/file.css', 'folder/folder-two/*.js']) //synchronous action
@@ -136,7 +136,7 @@ exports.default = (function () {
     }, {
       key: "bower",
       get: function get() {
-        return Gc.root + _bowerFolder + _path2.default.sep;
+        return this.root + _bowerFolder + _path2.default.sep;
       },
       set: function set(value) {
         if (value) {
@@ -154,7 +154,7 @@ exports.default = (function () {
     }, {
       key: "build",
       get: function get() {
-        return Gc.root + _build + _path2.default.sep + (Gc.environment ? Gc.environment + _path2.default.sep : '') + this.subFolder;
+        return this.root + _build + _path2.default.sep + (this.environment ? this.environment + _path2.default.sep : '') + this.subFolder;
       },
       set: function set(value) {
         if (value) {
@@ -172,7 +172,7 @@ exports.default = (function () {
     }, {
       key: "docs",
       get: function get() {
-        return Gc.root + _docsFolder + _path2.default.sep;
+        return this.root + _docsFolder + _path2.default.sep;
       },
       set: function set(value) {
         if (value) {
@@ -226,7 +226,7 @@ exports.default = (function () {
     }, {
       key: "node",
       get: function get() {
-        return Gc.root + _nodeFolder + _path2.default.sep;
+        return this.root + _nodeFolder + _path2.default.sep;
       },
       set: function set(value) {
         if (value) {
@@ -322,7 +322,7 @@ exports.default = (function () {
     }, {
       key: "source",
       get: function get() {
-        return Gc.root + _sourceFolder + _path2.default.sep + this.subFolder;
+        return this.root + _sourceFolder + _path2.default.sep + this.subFolder;
       },
       set: function set(value) {
         if (value) {
