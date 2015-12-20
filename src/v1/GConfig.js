@@ -71,15 +71,15 @@ exports.default = (function () {
       _bowerFolder = config.bowerFolder || 'bower_components';
       _build = config.buildFolder || 'builds';
       _docsFolder = config.docsFolder || 'docs';
-      _environment = config.environment || process.env.NODE_ENV;
-      _liveReload = config.liveReload || true;
+      _environment = Gc.environment || process.env.NODE_ENV;
+      _liveReload = Gc.liveReload || true;
       _nodeFolder = config.nodeFolder || 'node_modules';
       _rootFolder = config.rootFolder || '.';
-      _sassStyle = config.sassStyle;
+      _sassStyle = Gc.sassStyle;
       _sourceFolder = config.sourceFolder || 'src';
       _serverConfig = config.serverConfig || {
-        root: this.builds + (this.environment ? this.environment + _path2.default.sep : ''),
-        livereload: this.liveReload,
+        root: this.builds + (Gc.environment ? Gc.environment + _path2.default.sep : ''),
+        livereload: Gc.liveReload,
         port: 64033
       };
       _showDeleted = config.showDeleted || false;
@@ -136,7 +136,7 @@ exports.default = (function () {
     }, {
       key: "bower",
       get: function get() {
-        return this.root + _bowerFolder + _path2.default.sep;
+        return Gc.root + _bowerFolder + _path2.default.sep;
       },
       set: function set(value) {
         if (value) {
@@ -154,7 +154,7 @@ exports.default = (function () {
     }, {
       key: "build",
       get: function get() {
-        return this.root + _build + _path2.default.sep + (this.environment ? this.environment + _path2.default.sep : '') + this.subFolder;
+        return Gc.root + _build + _path2.default.sep + (Gc.environment ? Gc.environment + _path2.default.sep : '') + this.subFolder;
       },
       set: function set(value) {
         if (value) {
@@ -172,7 +172,7 @@ exports.default = (function () {
     }, {
       key: "docs",
       get: function get() {
-        return this.root + _docsFolder + _path2.default.sep;
+        return Gc.root + _docsFolder + _path2.default.sep;
       },
       set: function set(value) {
         if (value) {
@@ -226,7 +226,7 @@ exports.default = (function () {
     }, {
       key: "node",
       get: function get() {
-        return this.root + _nodeFolder + _path2.default.sep;
+        return Gc.root + _nodeFolder + _path2.default.sep;
       },
       set: function set(value) {
         if (value) {
@@ -322,7 +322,7 @@ exports.default = (function () {
     }, {
       key: "source",
       get: function get() {
-        return this.root + _sourceFolder + _path2.default.sep + this.subFolder;
+        return Gc.root + _sourceFolder + _path2.default.sep + this.subFolder;
       },
       set: function set(value) {
         if (value) {

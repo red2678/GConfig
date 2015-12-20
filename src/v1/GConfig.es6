@@ -72,15 +72,15 @@ export default (function() {
       _bowerFolder = config.bowerFolder || 'bower_components';
       _build = config.buildFolder || 'builds';
       _docsFolder = config.docsFolder || 'docs';
-      _environment = config.environment || process.env.NODE_ENV;
-      _liveReload = config.liveReload || true;
+      _environment = Gc.environment || process.env.NODE_ENV;
+      _liveReload = Gc.liveReload || true;
       _nodeFolder = config.nodeFolder || 'node_modules';
       _rootFolder = config.rootFolder || '.';
-      _sassStyle = config.sassStyle;
+      _sassStyle = Gc.sassStyle;
       _sourceFolder = config.sourceFolder || 'src';
       _serverConfig = config.serverConfig || {
-          root: this.builds + ((this.environment) ? this.environment + nPath.sep : ''),
-          livereload: this.liveReload,
+          root: this.builds + ((Gc.environment) ? Gc.environment + nPath.sep : ''),
+          livereload: Gc.liveReload,
           port: 64033
         };
       _showDeleted = config.showDeleted || false;
@@ -124,7 +124,7 @@ export default (function() {
      * @example './bower_components/'
      */
     get bower():string {
-      return this.root + _bowerFolder + nPath.sep;
+      return Gc.root + _bowerFolder + nPath.sep;
     }
 
     set bower(value:string):void {
@@ -140,7 +140,7 @@ export default (function() {
      * @example './builds/dev/mainSite/'
      */
     get build():string {
-      return this.root + _build + nPath.sep + ((this.environment) ? this.environment + nPath.sep : '') + this.subFolder;
+      return Gc.root + _build + nPath.sep + ((Gc.environment) ? Gc.environment + nPath.sep : '') + this.subFolder;
     }
 
     set build(value:string):void {
@@ -156,7 +156,7 @@ export default (function() {
      * @example './_DOCS/'
      */
     get docs():string {
-      return this.root + _docsFolder + nPath.sep;
+      return Gc.root + _docsFolder + nPath.sep;
     }
 
     set docs(value:string):void {
@@ -204,7 +204,7 @@ export default (function() {
      * @example './node_modules/'
      */
     get node():string {
-      return this.root + _nodeFolder + nPath.sep;
+      return Gc.root + _nodeFolder + nPath.sep;
     }
 
     set node(value:string):void {
@@ -290,7 +290,7 @@ export default (function() {
      * @example './_SRC/'
      */
     get source():string {
-      return this.root + _sourceFolder + nPath.sep + this.subFolder;
+      return Gc.root + _sourceFolder + nPath.sep + this.subFolder;
     }
 
     set source(value:string):void {
