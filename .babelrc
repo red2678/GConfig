@@ -4,9 +4,9 @@
   ],
   "plugins": [
     "syntax-flow",
-    "transform-flow-strip-types",
     "transform-strict-mode",
     "transform-class-properties",
-    "transform-strict-mode"
+    "transform-strict-mode",
+    "transform-flow-comments"
   ]
 }

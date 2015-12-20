@@ -26,7 +26,7 @@ g$.subFolder = 'v1';
 
 g$.sourceFiles = {
   js: [
-    g$.source + 'GConfig.js'
+    g$.source + '*.js'
   ],
   docs: [
     g$.source
@@ -94,32 +94,21 @@ gulp.task('js', () => {
 
   g$.deleteFiles([g$.build + '**/**']);
 
-  gulp.src(g$.sourceFiles.js, {
+  return gulp.src(g$.sourceFiles.js, {
       base: g$.source
     })
     .pipe(plumber())
     .pipe(gulpif(g$.environment === 'dev', sourcemaps.init()))
     .pipe(concat('main.js'))
     .pipe(gulpif(g$.environment === 'dev', sourcemaps.write()))
-    .pipe(gulp.dest(g$.build))
-    .pipe(rename("main.min.js"))
-    .pipe(uglify({
-      comments: g$.environment === 'dev' ? 'all' : 'none'
-    }))
     .pipe(gulp.dest(g$.build));
 });
 
-gulp.task('distro', () => {
+gulp.task('distro', ['prodSetup', 'js'], () => {
 
-  gulp.src(g$.sourceFiles.js, {
-      base: g$.source
+  gulp.src(g$.build + '*.*', {
+      base: g$.build
     })
     .pipe(plumber())
-    .pipe(concat('main.js'))
-    .pipe(gulp.dest('./dist/'))
-    .pipe(rename("main.min.js"))
-    .pipe(uglify({
-      comments: 'none'
-    }))
     .pipe(gulp.dest('./dist/'));
 });

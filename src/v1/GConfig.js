@@ -1,3 +1,4 @@
+/* @flow */
 "use strict"
 
 // Node Modules
@@ -21,11 +22,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-exports.default = (function () {
+function G$() {
 
   // Private variables
-  var _bowerFolder, _buildsFolder, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
-
+  var _bowerFolder /*:string*/, _buildsFolder /*:string*/, _docsFolder /*:string*/, _environment /*:string*/, _liveReload /*:boolean*/, _nodeFolder /*:string*/, _rootFolder /*:string*/, _sassStyle /*:string*/, _serverConfig /*:Object*/, _showDeleted /*:boolean*/, _sourceFolder /*:string*/, _subFolder /*:string*/;
   /**
    * @name G$
    * @author 'Anthony Trimble red2678@gmail.com'
@@ -74,10 +74,10 @@ exports.default = (function () {
      * @param {!string} [config.subFolder="./_SRC/v1/"] - See {@link subFolder}
      */
 
-    function G$() {
-      var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    function _class2() /*:G$*/ {
+      var config /*:object*/ = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-      _classCallCheck(this, G$);
+      _classCallCheck(this, _class2);
 
       _bowerFolder = config.bowerFolder || 'bower_components';
       _buildsFolder = config.buildsFolder || 'builds';
@@ -113,9 +113,9 @@ exports.default = (function () {
      * @example '{}'
      */
 
-    _createClass(G$, [{
+    _createClass(_class2, [{
       key: "_logDeleted",
-      value: function _logDeleted(paths) {
+      value: function _logDeleted(paths /*:Array<string>*/) {
         if (this.showDeleted) {
           console.log('\n********************************************\n' + ('Deleted files/folders: [\n' + paths.join(',\n') + '\n]\n*******************************************'));
         }
@@ -146,7 +146,7 @@ exports.default = (function () {
     }, {
       key: "deleteFiles",
       value: function deleteFiles() {
-        var files = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+        var files /*:Array<string>*/ = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
         this._logDeleted(_del2.default.sync(files));
       }
@@ -166,7 +166,7 @@ exports.default = (function () {
 
       // noinspection JSMethodCanBeStatic
       ,
-      set: function set(value) {
+      set: function set(value /*:string*/) {
         if (value) {
           _bowerFolder = value;
         }
@@ -184,7 +184,7 @@ exports.default = (function () {
       get: function get() {
         return this.root + _buildsFolder + _path2.default.sep + (this.environment ? this.environment + _path2.default.sep : '') + (this.subFolder ? this.subFolder + _path2.default.sep : '');
       },
-      set: function set(value) {
+      set: function set(value /*:string*/) {
         if (value) {
           _buildsFolder = value;
         }
@@ -202,7 +202,7 @@ exports.default = (function () {
       get: function get() {
         return this.root + _docsFolder + _path2.default.sep;
       },
-      set: function set(value) {
+      set: function set(value /*:string*/) {
         if (value) {
           _docsFolder = value;
         }
@@ -220,7 +220,7 @@ exports.default = (function () {
       get: function get() {
         return _environment;
       },
-      set: function set(value) {
+      set: function set(value /*:string*/) {
         if (value) {
           _environment = value;
         }
@@ -238,7 +238,7 @@ exports.default = (function () {
       get: function get() {
         return _liveReload;
       },
-      set: function set(value) {
+      set: function set(value /*:Boolean*/) {
         if (value) {
           _liveReload = value;
         }
@@ -256,7 +256,7 @@ exports.default = (function () {
       get: function get() {
         return this.root + _nodeFolder + _path2.default.sep;
       },
-      set: function set(value) {
+      set: function set(value /*:string*/) {
         if (value) {
           _nodeFolder = value;
         }
@@ -274,7 +274,7 @@ exports.default = (function () {
       get: function get() {
         return _rootFolder + _path2.default.sep;
       },
-      set: function set(value) {
+      set: function set(value /*:string*/) {
         if (value) {
           _rootFolder = value;
         }
@@ -293,7 +293,7 @@ exports.default = (function () {
       get: function get() {
         return _sassStyle === 'prod' || _sassStyle === 'ppe' ? 'compressed' : 'expanded';
       },
-      set: function set(style) {
+      set: function set(style /*:string*/) {
         if (style) {
           _sassStyle = style;
         }
@@ -316,7 +316,7 @@ exports.default = (function () {
       get: function get() {
         return _serverConfig;
       },
-      set: function set(config) {
+      set: function set(config /*:Object*/) {
         if (config) {
           _serverConfig = config;
         }
@@ -334,7 +334,7 @@ exports.default = (function () {
       get: function get() {
         return _showDeleted;
       },
-      set: function set(value) {
+      set: function set(value /*:boolean*/) {
         if (value) {
           _showDeleted = value;
         }
@@ -342,7 +342,7 @@ exports.default = (function () {
 
       /**
        * Default value :: './_SRC/'<br>
-       *  The project source directory
+       *  The project source directory test
        * @type {string}
        * @example './_SRC/'
        */
@@ -352,7 +352,7 @@ exports.default = (function () {
       get: function get() {
         return this.root + _sourceFolder + _path2.default.sep + (this.subFolder ? this.subFolder + _path2.default.sep : '');
       },
-      set: function set(value) {
+      set: function set(value /*:string*/) {
         if (value) {
           _rootFolder = value;
         }
@@ -370,15 +370,19 @@ exports.default = (function () {
       get: function get() {
         return _subFolder;
       },
-      set: function set(value) {
+      set: function set(value /*:string*/) {
         if (value) {
           _subFolder = value;
         }
       }
     }]);
 
-    return G$;
+    return _class2;
   })())();
-})();
+}
+
+var g$ = new G$();
+
+exports.default = g$;
 
 //# sourceMappingURL=GConfig.js.map

@@ -16,7 +16,7 @@
   "requireCleanWorkingDir": false,
   "src": {
     "pushRepo": null,
-    "beforeStartCommand": false,
+    "beforeStartCommand": "gulp distro",
     "beforeStageCommand": false,
     "afterReleaseCommand": false
   },

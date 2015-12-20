@@ -5,7 +5,7 @@
 import nPath from "path";
 import del from "del";
 
-export default (function() {
+function G$() {
 
   // Private variables
   var _bowerFolder:string,
@@ -20,7 +20,6 @@ export default (function() {
     _showDeleted:boolean,
     _sourceFolder:string,
     _subFolder:string;
-
   /**
    * @name G$
    * @author 'Anthony Trimble red2678@gmail.com'
@@ -48,7 +47,7 @@ export default (function() {
    * g$.showDeleted = false;
    * g$.subFolder = 'v1';
    */
-  return new class G$ {
+  return new class {
 
     debug:boolean;
 
@@ -318,11 +317,11 @@ export default (function() {
      * @type {boolean}
      * @example false
      */
-    get showDeleted():Boolean {
+    get showDeleted():boolean {
       return _showDeleted;
     }
 
-    set showDeleted(value:Boolean):void {
+    set showDeleted(value:boolean):void {
       if (value) {
         _showDeleted = value;
       }
@@ -330,7 +329,7 @@ export default (function() {
 
     /**
      * Default value :: './_SRC/'<br>
-     *  The project source directory
+     *  The project source directory test
      * @type {string}
      * @example './_SRC/'
      */
@@ -361,4 +360,8 @@ export default (function() {
       }
     }
   }
-})()
+}
+
+const g$ = new G$();
+
+export default g$;
