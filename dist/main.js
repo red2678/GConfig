@@ -371,4 +371,4 @@ exports.default = (function () {
   })())();
 })();
 
-//# sourceMappingURL=Gc.js.map
+//# sourceMappingURL=GConfig.jsig.js.map

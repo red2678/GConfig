@@ -58,7 +58,7 @@ export default (function() {
      * @param {!string} [config.docsFolder="./_DOCS/"] - See {@link docs}
      * @param {!string} [config.environment="dev"] - See {@link env}
      * @param {!boolean} [config.liveReload="true"] - See {@link liveReload}
-     * @param {!string} [config.nodeModulesFolder="./node_modules/"] - See {@link nodeModulesFolder}
+     * @param {!string} [config.nodeFolder="./node_modules/"] - See {@link nodeModulesFolder}
      * @param {!string} [config.rootFolder='./'] - See {@link rootDir}
      * @param {!object} [config.serverConfig="{}"] - See {@link serverConfig}
      * @param {!boolean} [config.showDeleted="false"] - See {@link showDeleted}
@@ -74,7 +74,7 @@ export default (function() {
       _docsFolder = config.docsFolder || 'docs';
       _environment = config.environment || process.env.NODE_ENV;
       _liveReload = config.liveReload || true;
-      _nodeFolder = config.nodeModulesFolder || 'node_modules';
+      _nodeFolder = config.nodeFolder || 'node_modules';
       _rootFolder = config.rootFolder || '.';
       _sassStyle = config.sassStyle;
       _sourceFolder = config.sourceFolder || 'src';
@@ -248,7 +248,7 @@ export default (function() {
      * config.sassStyle === 'expanded'
      */
     get sassStyle():string {
-      return ( _sassStyle === 'production' || _sassStyle === 'ppe' ? 'compressed' : 'expanded');
+      return ( _sassStyle === 'prod' || _sassStyle === 'ppe' ? 'compressed' : 'expanded');
     }
 
     set sassStyle(style:string):void {

@@ -2,7 +2,7 @@
 'use strict';
 
 // Modules
-import gc from './src/v1/Gc';
+import g$ from './src/v1/GConfig';
 import concat from 'gulp-concat';
 import gulp from 'gulp';
 import eslint from 'gulp-eslint'
@@ -14,16 +14,20 @@ import rename from 'gulp-rename';
 import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 
-// Config
-gc.subFolder = 'v1';
-gc.environment = 'dev';
-gc.liveReload = false;
-gc.sourceFiles = {
+// Base Config
+g$.bowerFolder = 'bower_components';
+g$.buildFolder = 'builds';
+g$.docsFolder = 'docs';
+g$.liveReload = false;
+g$.nodeFolder = 'node_modules';
+g$.rootFolder = '.';
+g$.sourceFolder = 'src';
+g$.sourceFiles = {
   js: [
-    gc.source + 'Gc.js'
+    g$.source + 'Gc.js'
   ],
   docs: [
-    gc.source
+    g$.source
   ],
   copy: [
 
@@ -31,44 +35,52 @@ gc.sourceFiles = {
 
   ]
 };
+g$.showDeleted = false;
+g$.subFolder = 'v1';
 
 //////////
 
 gulp.task('default', [
+  'devSetup',
   'clean',
   'js'
 ]);
 
 gulp.task('dev', [
+  'devSetup',
   'clean',
   'js',
   'watch'
 ]);
 
 gulp.task('watch', () => {
-  gulp.watch(gc.sourceFiles.js, ['js']);
+  gulp.watch(g$.sourceFiles.js, ['js']);
 });
 
 //////////
 
-gulp.task('changeToProd', () => {
-  gc.environment = 'prod';
+gulp.task('devSetup', () => {
+  g$.environment = 'dev';
+});
+
+gulp.task('prodSetup', () => {
+  g$.environment = 'prod';
 });
 
 gulp.task('clean', () => {
-  gc.deleteFiles([gc.build + '**/*'])
+  g$.deleteFiles([g$.build + '**/*'])
 });
 
 gulp.task('docs', () => {
 
-  gc.deleteFiles([
-    gc.docs
+  g$.deleteFiles([
+    g$.docs
   ]);
 
-  return gulp.src(gc.sourceFiles.docs)
+  gulp.src(g$.sourceFiles.docs)
     .pipe(esDoc({
-      source: gc.source,
-      destination: gc.docs,
+      source: g$.source,
+      destination: g$.docs,
       autoPrivate: true,
       includes: ['\\.(es6)$'],
       coverage: true,
@@ -79,25 +91,25 @@ gulp.task('docs', () => {
 
 gulp.task('js', () => {
 
-  gc.deleteFiles([gc.build + 'main.min.js']);
+  g$.deleteFiles([g$.build + 'main.min.js']);
 
-  return gulp.src(gc.sourceFiles.js, {
-      base: gc.source
+  gulp.src(g$.sourceFiles.js, {
+      base: g$.source
     })
     .pipe(plumber())
-    .pipe(gulpif(gc.environment === 'dev', sourcemaps.init()))
+    .pipe(gulpif(g$.environment === 'dev', sourcemaps.init()))
     .pipe(concat('main.js'))
-    .pipe(gulpif(gc.environment === 'dev', sourcemaps.write()))
-    .pipe(gulp.dest(gc.build))
+    .pipe(gulpif(g$.environment === 'dev', sourcemaps.write()))
+    .pipe(gulp.dest(g$.build))
     .pipe(rename("main.min.js"))
     .pipe(uglify({
-      comments: gc.environment === 'dev' || gc.environment === undefined
+      comments: g$.environment === 'dev' || g$.environment === undefined
         ? 'all' : 'none'
     }))
-    .pipe(gulp.dest(gc.build));
+    .pipe(gulp.dest(g$.build));
 });
 
-gulp.task('createRelease', ['changeToProd', 'js'], () => {
-  return gulp.src(gc.build + '**/**')
+gulp.task('createRelease', ['prodSetup', 'js'], () => {
+  gulp.src(g$.build + '**/**')
     .pipe(gulp.dest('./dist'));
 });
