@@ -16,7 +16,7 @@ import uglify from 'gulp-uglify';
 
 // Base Config
 g$.bowerFolder = 'bower_components';
-g$.buildFolder = 'builds';
+g$.buildsFolder = 'builds';
 g$.docsFolder = 'docs';
 g$.liveReload = false;
 g$.nodeFolder = 'node_modules';
