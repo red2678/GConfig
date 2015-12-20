@@ -6,7 +6,7 @@ import nPath from "path";
 import del from "del";
 
 // noinspection JSUnusedLocalSymbols
-export default (function () {
+export default (function() {
 
   var _bowerFolder:string,
     _builds:string,
@@ -23,14 +23,14 @@ export default (function () {
     _subFolder:string;
 
   /**
-   * @name GConfig
+   * @name Gc
    * @author 'Anthony Trimble red2678@gmail.com'
    * @since '11/14/2015'
    *
-   * @class GConfig
+   * @class Gc
    * @classdesc Creates a new GConfig.
    *
-   * @exports GConfig
+   * @exports Gc
    * @requires  module:npath
    * @requires  module:del
    *
@@ -39,7 +39,7 @@ export default (function () {
    *     liveReload : true
    *   });
    */
-  return class GConfig {
+  class Gc {
 
     /**
      * Creates a GConfig object
@@ -332,4 +332,8 @@ export default (function () {
       }
     }
   }
+
+  const inst = new Gc;
+
+  return inst;
 })()

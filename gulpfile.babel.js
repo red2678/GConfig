@@ -2,12 +2,11 @@
 'use strict';
 
 // GConfig
-import GConfig from './src/v1/js_compiled/GConfig';
+import gc from './src/v1/Gc';
 
 // Gulp
 import concat from 'gulp-concat';
 import gulp from 'gulp';
-import babel from 'gulp-babel';
 import eslint from 'gulp-eslint'
 import esDoc from 'gulp-esdoc';
 import gutil from 'gulp-util';
@@ -16,11 +15,8 @@ import plumber from 'gulp-plumber';
 import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 
-const gc = new GConfig({
-  subFolder: 'v1',
-  liveReload: false
-});
-
+gc.subFolder = 'v1';
+gc.liveReload = false;
 gc.sourceFiles = {
 
   // ES2015 (ES6) paths
@@ -30,7 +26,7 @@ gc.sourceFiles = {
 
   // JS paths concatenated into dist main.min.js
   js: [
-    gc.source + 'js_compiled/GConfig.js'
+    gc.source + 'Gc.js'
   ],
 
   // Docs Folder
@@ -69,28 +65,6 @@ gulp.task('clean', () => {
   ])
 });
 
-gulp.task('babel', () => {
-
-  gc.deleteFiles([gc.source + 'js_compiled']);
-
-  return gulp.src(gc.sourceFiles.es, {
-      base: gc.source
-    })
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      presets: ['es2015'],
-      plugins: [
-        'syntax-flow',
-        'transform-flow-strip-types',
-        'transform-strict-mode',
-        'transform-class-properties',
-        'transform-strict-mode'
-      ]
-    }))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(gc.source + 'js_compiled'));
-});
-
 gulp.task('docs', () => {
 
   gc.deleteFiles([
@@ -113,19 +87,20 @@ gulp.task('docs', () => {
     }));
 });
 
-gulp.task('js', ['babel'], () => {
+gulp.task('js', () => {
 
   gc.deleteFiles([gc.builds + 'main.min.js']);
 
   return gulp.src(gc.sourceFiles.js, {
-      base: gc.source + 'js_compiled'
+      base: gc.source
     })
     .pipe(plumber())
     .pipe(gulpif(gc.environment === 'dev', sourcemaps.init()))
     .pipe(concat('main.min.js'))
-    /*.pipe(uglify({
-     comments: 'all'
-     }))*/
+    .pipe(uglify({
+      comments: gc.environment === 'dev' || gc.environment === undefined
+        ? 'all' : 'none'
+    }))
     .pipe(gulpif(gc.environment === 'dev', sourcemaps.write()))
     .pipe(gulp.dest(gc.builds));
 });
