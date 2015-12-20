@@ -46,7 +46,7 @@ exports.default = (function () {
   // noinspection JSUnusedLocalSymbols
   return new ((function () {
 
-    /** 
+    /**
      * Creates a GConfig object
      * @param {Object} [config={}] - Options to initialize the component with
      * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerFolder}
