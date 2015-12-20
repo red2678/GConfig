@@ -22,21 +22,19 @@ g$.liveReload = false;
 g$.nodeFolder = 'node_modules';
 g$.rootFolder = '.';
 g$.sourceFolder = 'src';
+g$.subFolder = 'v1';
+
 g$.sourceFiles = {
   js: [
-    g$.source + 'Gc.js'
+    g$.source + 'GConfig.js'
   ],
   docs: [
     g$.source
-  ],
-  copy: [
-
-    // Take only what you need to survive
-
   ]
 };
+
+
 g$.showDeleted = false;
-g$.subFolder = 'v1';
 g$.debug = true;
 
 //////////
@@ -94,7 +92,7 @@ gulp.task('docs', () => {
 
 gulp.task('js', () => {
 
-  g$.deleteFiles([g$.build + 'main.min.js']);
+  g$.deleteFiles([g$.build + '**/**']);
 
   gulp.src(g$.sourceFiles.js, {
       base: g$.source
@@ -106,13 +104,22 @@ gulp.task('js', () => {
     .pipe(gulp.dest(g$.build))
     .pipe(rename("main.min.js"))
     .pipe(uglify({
-      comments: g$.environment === 'dev' || g$.environment === undefined
-        ? 'all' : 'none'
+      comments: g$.environment === 'dev' ? 'all' : 'none'
     }))
     .pipe(gulp.dest(g$.build));
 });
 
-gulp.task('createRelease', ['prodSetup', 'js'], () => {
-  gulp.src(g$.build + '**/**')
-    .pipe(gulp.dest('./dist'));
+gulp.task('distro', () => {
+
+  gulp.src(g$.sourceFiles.js, {
+      base: g$.source
+    })
+    .pipe(plumber())
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest('./dist/'))
+    .pipe(rename("main.min.js"))
+    .pipe(uglify({
+      comments: 'none'
+    }))
+    .pipe(gulp.dest('./dist/'));
 });

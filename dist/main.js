@@ -21,79 +21,89 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// noinspection JSUnusedLocalSymbols
-
 exports.default = (function () {
-  var _bowerFolder, _build, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
+
+  // Private variables
+  var _bowerFolder, _buildsFolder, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
 
   /**
-   * @name Gc
+   * @name G$
    * @author 'Anthony Trimble red2678@gmail.com'
    * @since '11/14/2015'
    *
-   * @class Gc
-   * @classdesc Creates a new GConfig.
+   * @class G$
+   * @classdesc Creates a new G$.
    *
-   * @exports Gc
-   * @requires  module:npath
-   * @requires  module:del
+   * @exports G$
+   * @requires  path
+   * @requires  del
    *
-   * @example const mainConfig = new GConfig({
-   *     showDeleted : false,
-   *     liveReload : true
-   *   });
+   * @example
+   * g$.bowerFolder = 'bower_components';
+   * g$.buildsFolder = 'builds';
+   * g$.docsFolder = 'docs';
+   * g$.liveReload = false;
+   * g$.nodeFolder = 'node_modules';
+   * g$.rootFolder = '.';
+   * g$.sourceFolder = 'src';
+   * g$.sourceFiles = {
+   * js: [
+   *  g$.source + '*.js'
+   * ]};
+   * g$.showDeleted = false;
+   * g$.subFolder = 'v1';
    */
   return new ((function () {
 
+    // noinspection JSUnusedGlobalSymbols
     /**
-     * Creates a GConfig object
+     * Creates a G$ object
      * @param {Object} [config={}] - Options to initialize the component with
-     * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerDir}
-     * @param {!string} [config.buildFolder="./_BUILDS/dev/mainSite/"] - See {@link buildDir}
+     * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerFolder}
+     * @param {!string} [config.buildsFolder="./_BUILDS/dev/mainSite/"] - See {@link buildFolder}
      * @param {!string} [config.docsFolder="./_DOCS/"] - See {@link docs}
      * @param {!string} [config.environment="dev"] - See {@link env}
      * @param {!boolean} [config.liveReload="true"] - See {@link liveReload}
-     * @param {!string} [config.nodeModulesFolder="./node_modules/"] - See {@link nodeModulesFolder}
-     * @param {!string} [config.rootFolder='./'] - See {@link rootDir}
+     * @param {!string} [config.nodeFolder="./node_modules/"] - See {@link nodeModulesFolder}
+     * @param {!string} [config.rootFolder='./'] - See {@link rootFolder}
      * @param {!object} [config.serverConfig="{}"] - See {@link serverConfig}
      * @param {!boolean} [config.showDeleted="false"] - See {@link showDeleted}
      * @param {!string} [config.site="mainSite"] - See {@link site}
      * @param {!object} [config.sources="{}"] - See {@link sources}
-     * @param {!string} [config.sourceFolder="./_SRC/dev/"] - See {@link srcDir}
-     * @param {!string} [config.subFolder="./_SRC/v1/"] - See {@link srcDir}
+     * @param {!string} [config.sourceFolder="./_SRC/dev/"] - See {@link sourceFolder}
+     * @param {!string} [config.subFolder="./_SRC/v1/"] - See {@link subFolder}
      */
 
-    function Gc() {
+    function G$() {
       var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-      _classCallCheck(this, Gc);
+      _classCallCheck(this, G$);
 
       _bowerFolder = config.bowerFolder || 'bower_components';
-      _build = config.buildFolder || 'builds';
+      _buildsFolder = config.buildsFolder || 'builds';
       _docsFolder = config.docsFolder || 'docs';
-      _environment = Gc.environment || process.env.NODE_ENV;
-      _liveReload = Gc.liveReload || true;
-      _nodeFolder = config.nodeModulesFolder || 'node_modules';
+      _environment = config.environment || process.env.NODE_ENV;
+      _liveReload = config.liveReload || true;
+      _nodeFolder = config.nodeFolder || 'node_modules';
       _rootFolder = config.rootFolder || '.';
-      _sassStyle = Gc.sassStyle;
+      _sassStyle = config.sassStyle;
       _sourceFolder = config.sourceFolder || 'src';
       _serverConfig = config.serverConfig || {
-        root: this.builds + (Gc.environment ? Gc.environment + _path2.default.sep : ''),
-        livereload: Gc.liveReload,
+        root: this.build + (this.environment ? this.environment + _path2.default.sep : ''),
+        livereload: this.liveReload,
         port: 64033
       };
       _showDeleted = config.showDeleted || false;
       _subFolder = config.subFolder || process.env.GCONFIG_SRCSUB;
 
+      this.debug = config.debug || false;
       this.sourceFiles = config.sourceFiles || {};
     }
 
     /**
-     * Capitalizes the first letter of a passed in string
-     * @param {string} str='' - The string to capitalize
-     * @returns {string} - The string to with the first letter capitalized
-     * @example const str = capitalize('my test string');
-     * str === 'My test string';
+     *
+     * @private
+     * @param paths
      */
 
     /**
@@ -103,17 +113,31 @@ exports.default = (function () {
      * @example '{}'
      */
 
-    _createClass(Gc, [{
-      key: "capitalize",
-      value: function capitalize() {
-        var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    _createClass(G$, [{
+      key: "_logDeleted",
+      value: function _logDeleted(paths) {
+        if (this.showDeleted) {
+          console.log('\n********************************************\n' + ('Deleted files/folders: [\n' + paths.join(',\n') + '\n]\n*******************************************'));
+        }
       }
 
       /**
-       * Wraps node del.sync in {@link logDeleted}
-       * @param {Array<string>} files=[] - The files to be delted, accepts GLOB patterns.
+       *
+       * @public
+       * @returns {void}
+       */
+
+    }, {
+      key: "buildInfo",
+      value: function buildInfo() {
+        if (this.debug) {
+          console.log('Config :: ------------------------------------\n' + 'Bower Folder :: ' + _bowerFolder + ' \n' + 'Builds Folder :: ' + _buildsFolder + ' \n' + 'Docs Folder :: ' + _docsFolder + ' \n' + 'Live Reload :: ' + _liveReload + ' \n' + 'Node Folder :: ' + _nodeFolder + ' \n' + 'Root Folder :: ' + _rootFolder + ' \n' + 'Source Folder :: ' + _sourceFolder + ' \n' + 'Show Deleted :: ' + _showDeleted + ' \n' + 'Sub Folder :: ' + _subFolder + ' \n', 'Paths :: -------------------------------------\n' + 'Bower :: ' + this.bower + '\n' + 'Build :: ' + this.build + '\n' + 'Docs  :: ' + this.docs + '\n' + 'Node :: ' + this.node + '\n' + 'Root :: ' + this.root + '\n' + 'Source :: ' + this.source + '\n' + 'Source Files :: ------------------------------\n' + JSON.stringify(this.sourceFiles, null, 4));
+        }
+      }
+
+      /**
+       * Wraps node del.sync in {@link _logDeleted}
+       * @param {Array<string>} files=[] - The files to be deleted, accepts GLOB patterns.
        * @returns {void}
        * @example const config = new GConfig();
        * config.deleteFiles(['folder/file.html', 'folder/file.css', 'folder/folder-two/*.js']) //synchronous action
@@ -128,23 +152,6 @@ exports.default = (function () {
       }
 
       /**
-       *
-       * @private
-       * @param paths
-       * @param location
-       */
-
-    }, {
-      key: "_logDeleted",
-      value: function _logDeleted(paths) {
-        var location = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-
-        if (this.showDeleted) {
-          console.log('\n******************************* *************\n' + (location ? this.capitalize(location) : '') + 'Deleted files/folders: [\n' + paths.join(',\n') + '\n]\n*******************************************');
-        }
-      }
-
-      /**
        * Default value :: './bower_components/'<br>
        * The project bower directory
        * @type {string}
@@ -154,8 +161,11 @@ exports.default = (function () {
     }, {
       key: "bower",
       get: function get() {
-        return Gc.root + _bowerFolder + _path2.default.sep;
-      },
+        return this.root + _bowerFolder + _path2.default.sep;
+      }
+
+      // noinspection JSMethodCanBeStatic
+      ,
       set: function set(value) {
         if (value) {
           _bowerFolder = value;
@@ -172,11 +182,11 @@ exports.default = (function () {
     }, {
       key: "build",
       get: function get() {
-        return Gc.root + _build + _path2.default.sep + (Gc.environment ? Gc.environment + _path2.default.sep : '') + this.subFolder;
+        return this.root + _buildsFolder + _path2.default.sep + (this.environment ? this.environment + _path2.default.sep : '') + (this.subFolder ? this.subFolder + _path2.default.sep : '');
       },
       set: function set(value) {
         if (value) {
-          _build = value;
+          _buildsFolder = value;
         }
       }
 
@@ -190,7 +200,7 @@ exports.default = (function () {
     }, {
       key: "docs",
       get: function get() {
-        return Gc.root + _docsFolder + _path2.default.sep;
+        return this.root + _docsFolder + _path2.default.sep;
       },
       set: function set(value) {
         if (value) {
@@ -244,7 +254,7 @@ exports.default = (function () {
     }, {
       key: "node",
       get: function get() {
-        return Gc.root + _nodeFolder + _path2.default.sep;
+        return this.root + _nodeFolder + _path2.default.sep;
       },
       set: function set(value) {
         if (value) {
@@ -281,7 +291,7 @@ exports.default = (function () {
     }, {
       key: "sassStyle",
       get: function get() {
-        return _sassStyle === 'production' || _sassStyle === 'ppe' ? 'compressed' : 'expanded';
+        return _sassStyle === 'prod' || _sassStyle === 'ppe' ? 'compressed' : 'expanded';
       },
       set: function set(style) {
         if (style) {
@@ -340,7 +350,7 @@ exports.default = (function () {
     }, {
       key: "source",
       get: function get() {
-        return Gc.root + _sourceFolder + _path2.default.sep + this.subFolder;
+        return this.root + _sourceFolder + _path2.default.sep + (this.subFolder ? this.subFolder + _path2.default.sep : '');
       },
       set: function set(value) {
         if (value) {
@@ -358,7 +368,7 @@ exports.default = (function () {
     }, {
       key: "subFolder",
       get: function get() {
-        return _subFolder + _path2.default.sep;
+        return _subFolder;
       },
       set: function set(value) {
         if (value) {
@@ -367,8 +377,8 @@ exports.default = (function () {
       }
     }]);
 
-    return Gc;
+    return G$;
   })())();
 })();
 
-//# sourceMappingURL=GConfig.jsig.js.map
+//# sourceMappingURL=GConfig.js.map
