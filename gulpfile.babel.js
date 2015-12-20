@@ -37,6 +37,7 @@ g$.sourceFiles = {
 };
 g$.showDeleted = false;
 g$.subFolder = 'v1';
+g$.debug = true;
 
 //////////
 
@@ -61,10 +62,12 @@ gulp.task('watch', () => {
 
 gulp.task('devSetup', () => {
   g$.environment = 'dev';
+  g$.buildInfo();
 });
 
 gulp.task('prodSetup', () => {
   g$.environment = 'prod';
+  g$.buildInfo();
 });
 
 gulp.task('clean', () => {

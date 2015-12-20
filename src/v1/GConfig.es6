@@ -9,27 +9,27 @@ export default (function() {
 
   // Private variables
   var _bowerFolder:string,
-    _build:string,
+    _buildsFolder:string,
     _docsFolder:string,
     _environment:string,
-    _liveReload:Boolean,
+    _liveReload:boolean,
     _nodeFolder:string,
     _rootFolder:string,
     _sassStyle:string,
     _serverConfig:Object,
-    _showDeleted:Boolean,
+    _showDeleted:boolean,
     _sourceFolder:string,
     _subFolder:string;
 
   /**
-   * @name Gc
+   * @name G$
    * @author 'Anthony Trimble red2678@gmail.com'
    * @since '11/14/2015'
    *
-   * @class Gc
-   * @classdesc Creates a new GConfig.
+   * @class G$
+   * @classdesc Creates a new G$.
    *
-   * @exports Gc
+   * @exports G$
    * @requires  path
    * @requires  del
    *
@@ -48,9 +48,9 @@ export default (function() {
    * g$.showDeleted = false;
    * g$.subFolder = 'v1';
    */
-  // noinspection JSUnusedLocalSymbols
-  return new class Gc {
+  return new class G$ {
 
+    debug:boolean;
 
     /**
      * Default value :: {}<br>
@@ -60,8 +60,9 @@ export default (function() {
      */
     sourceFiles:Object;
 
+    // noinspection JSUnusedGlobalSymbols
     /**
-     * Creates a GConfig object
+     * Creates a G$ object
      * @param {Object} [config={}] - Options to initialize the component with
      * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerFolder}
      * @param {!string} [config.buildsFolder="./_BUILDS/dev/mainSite/"] - See {@link buildFolder}
@@ -77,10 +78,10 @@ export default (function() {
      * @param {!string} [config.sourceFolder="./_SRC/dev/"] - See {@link sourceFolder}
      * @param {!string} [config.subFolder="./_SRC/v1/"] - See {@link subFolder}
      */
-    constructor(config:object = {}):Gc {
+    constructor(config:object = {}):G$ {
 
       _bowerFolder = config.bowerFolder || 'bower_components';
-      _build = config.buildsFolder || 'builds';
+      _buildsFolder = config.buildsFolder || 'builds';
       _docsFolder = config.docsFolder || 'docs';
       _environment = config.environment || process.env.NODE_ENV;
       _liveReload = config.liveReload || true;
@@ -96,6 +97,7 @@ export default (function() {
       _showDeleted = config.showDeleted || false;
       _subFolder = config.subFolder || process.env.GCONFIG_SRCSUB;
 
+      this.debug = config.debug || false;
       this.sourceFiles = config.sourceFiles || {};
 
     }
@@ -112,6 +114,37 @@ export default (function() {
           ('Deleted files/folders: [\n' +
           paths.join(',\n') +
           '\n]\n*******************************************'));
+      }
+    }
+
+    /**
+     *
+     * @public
+     * @returns {void}
+     */
+    buildInfo():void {
+      if (this.debug) {
+        console.log(
+          'Config :: ------------------------------------\n' +
+          'Bower Folder :: ' + _bowerFolder + ' \n' +
+          'Builds Folder :: ' + _buildsFolder + ' \n' +
+          'Docs Folder :: ' + _docsFolder + ' \n' +
+          'Live Reload :: ' + _liveReload + ' \n' +
+          'Node Folder :: ' + _nodeFolder + ' \n' +
+          'Root Folder :: ' + _rootFolder + ' \n' +
+          'Source Folder :: ' + _sourceFolder + ' \n' +
+          'Show Deleted :: ' + _showDeleted + ' \n' +
+          'Sub Folder :: ' + _subFolder + ' \n',
+          'Paths :: -------------------------------------\n' +
+          'Bower :: ' + this.bower + '\n' +
+          'Build :: ' + this.build + '\n' +
+          'Docs  :: ' + this.docs + '\n' +
+          'Node :: ' + this.node + '\n' +
+          'Root :: ' + this.root + '\n' +
+          'Source :: ' + this.source + '\n' +
+          'Source Files :: ------------------------------\n' +
+          JSON.stringify(this.sourceFiles, null, 4)
+        );
       }
     }
 
@@ -136,6 +169,7 @@ export default (function() {
       return this.root + _bowerFolder + nPath.sep;
     }
 
+   // noinspection JSMethodCanBeStatic
     set bower(value:string):void {
       if (value) {
         _bowerFolder = value;
@@ -149,12 +183,14 @@ export default (function() {
      * @example './builds/dev/mainSite/'
      */
     get build():string {
-      return this.root + _build + nPath.sep + ((this.environment) ? this.environment + nPath.sep : '') + this.subFolder;
+      return this.root + _buildsFolder + nPath.sep +
+        (this.environment ? this.environment + nPath.sep : '') +
+        (this.subFolder ? this.subFolder + nPath.sep : '');
     }
 
     set build(value:string):void {
       if (value) {
-        _build = value;
+        _buildsFolder = value;
       }
     }
 
@@ -299,7 +335,8 @@ export default (function() {
      * @example './_SRC/'
      */
     get source():string {
-      return this.root + _sourceFolder + nPath.sep + this.subFolder;
+      return this.root + _sourceFolder + nPath.sep +
+        (this.subFolder ? this.subFolder + nPath.sep : '');
     }
 
     set source(value:string):void {
@@ -315,7 +352,7 @@ export default (function() {
      * @example 'v1'
      */
     get subFolder():string {
-      return _subFolder + nPath.sep;
+      return _subFolder;
     }
 
     set subFolder(value:string):void {

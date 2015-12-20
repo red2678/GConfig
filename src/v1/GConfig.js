@@ -24,17 +24,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 exports.default = (function () {
 
   // Private variables
-  var _bowerFolder, _build, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
+  var _bowerFolder, _buildsFolder, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
 
   /**
-   * @name Gc
+   * @name G$
    * @author 'Anthony Trimble red2678@gmail.com'
    * @since '11/14/2015'
    *
-   * @class Gc
-   * @classdesc Creates a new GConfig.
+   * @class G$
+   * @classdesc Creates a new G$.
    *
-   * @exports Gc
+   * @exports G$
    * @requires  path
    * @requires  del
    *
@@ -53,11 +53,11 @@ exports.default = (function () {
    * g$.showDeleted = false;
    * g$.subFolder = 'v1';
    */
-  // noinspection JSUnusedLocalSymbols
   return new ((function () {
 
+    // noinspection JSUnusedGlobalSymbols
     /**
-     * Creates a GConfig object
+     * Creates a G$ object
      * @param {Object} [config={}] - Options to initialize the component with
      * @param {!string} [config.bowerFolder="./bower_components/"] - See {@link bowerFolder}
      * @param {!string} [config.buildsFolder="./_BUILDS/dev/mainSite/"] - See {@link buildFolder}
@@ -74,13 +74,13 @@ exports.default = (function () {
      * @param {!string} [config.subFolder="./_SRC/v1/"] - See {@link subFolder}
      */
 
-    function Gc() {
+    function G$() {
       var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-      _classCallCheck(this, Gc);
+      _classCallCheck(this, G$);
 
       _bowerFolder = config.bowerFolder || 'bower_components';
-      _build = config.buildsFolder || 'builds';
+      _buildsFolder = config.buildsFolder || 'builds';
       _docsFolder = config.docsFolder || 'docs';
       _environment = config.environment || process.env.NODE_ENV;
       _liveReload = config.liveReload || true;
@@ -96,6 +96,7 @@ exports.default = (function () {
       _showDeleted = config.showDeleted || false;
       _subFolder = config.subFolder || process.env.GCONFIG_SRCSUB;
 
+      this.debug = config.debug || false;
       this.sourceFiles = config.sourceFiles || {};
     }
 
@@ -112,11 +113,25 @@ exports.default = (function () {
      * @example '{}'
      */
 
-    _createClass(Gc, [{
+    _createClass(G$, [{
       key: "_logDeleted",
       value: function _logDeleted(paths) {
         if (this.showDeleted) {
           console.log('\n********************************************\n' + ('Deleted files/folders: [\n' + paths.join(',\n') + '\n]\n*******************************************'));
+        }
+      }
+
+      /**
+       *
+       * @public
+       * @returns {void}
+       */
+
+    }, {
+      key: "buildInfo",
+      value: function buildInfo() {
+        if (this.debug) {
+          console.log('Config :: ------------------------------------\n' + 'Bower Folder :: ' + _bowerFolder + ' \n' + 'Builds Folder :: ' + _buildsFolder + ' \n' + 'Docs Folder :: ' + _docsFolder + ' \n' + 'Live Reload :: ' + _liveReload + ' \n' + 'Node Folder :: ' + _nodeFolder + ' \n' + 'Root Folder :: ' + _rootFolder + ' \n' + 'Source Folder :: ' + _sourceFolder + ' \n' + 'Show Deleted :: ' + _showDeleted + ' \n' + 'Sub Folder :: ' + _subFolder + ' \n', 'Paths :: -------------------------------------\n' + 'Bower :: ' + this.bower + '\n' + 'Build :: ' + this.build + '\n' + 'Docs  :: ' + this.docs + '\n' + 'Node :: ' + this.node + '\n' + 'Root :: ' + this.root + '\n' + 'Source :: ' + this.source + '\n' + 'Source Files :: ------------------------------\n' + JSON.stringify(this.sourceFiles, null, 4));
         }
       }
 
@@ -147,7 +162,10 @@ exports.default = (function () {
       key: "bower",
       get: function get() {
         return this.root + _bowerFolder + _path2.default.sep;
-      },
+      }
+
+      // noinspection JSMethodCanBeStatic
+      ,
       set: function set(value) {
         if (value) {
           _bowerFolder = value;
@@ -164,11 +182,11 @@ exports.default = (function () {
     }, {
       key: "build",
       get: function get() {
-        return this.root + _build + _path2.default.sep + (this.environment ? this.environment + _path2.default.sep : '') + this.subFolder;
+        return this.root + _buildsFolder + _path2.default.sep + (this.environment ? this.environment + _path2.default.sep : '') + (this.subFolder ? this.subFolder + _path2.default.sep : '');
       },
       set: function set(value) {
         if (value) {
-          _build = value;
+          _buildsFolder = value;
         }
       }
 
@@ -332,7 +350,7 @@ exports.default = (function () {
     }, {
       key: "source",
       get: function get() {
-        return this.root + _sourceFolder + _path2.default.sep + this.subFolder;
+        return this.root + _sourceFolder + _path2.default.sep + (this.subFolder ? this.subFolder + _path2.default.sep : '');
       },
       set: function set(value) {
         if (value) {
@@ -350,7 +368,7 @@ exports.default = (function () {
     }, {
       key: "subFolder",
       get: function get() {
-        return _subFolder + _path2.default.sep;
+        return _subFolder;
       },
       set: function set(value) {
         if (value) {
@@ -359,7 +377,7 @@ exports.default = (function () {
       }
     }]);
 
-    return Gc;
+    return G$;
   })())();
 })();
 
