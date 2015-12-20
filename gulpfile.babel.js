@@ -2,7 +2,7 @@
 'use strict';
 
 // GConfig
-import GConfig from './src/GConfig';
+import GConfig from './src/v1/js_compiled/GConfig';
 
 // Gulp
 import concat from 'gulp-concat';
@@ -16,23 +16,26 @@ import plumber from 'gulp-plumber';
 import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 
-const gc = new GConfig({liveReload: false});
+const gc = new GConfig({
+  subFolder: 'v1',
+  liveReload: false
+});
 
-gc.set('sources', {
+gc.sourceFiles = {
 
   // ES2015 (ES6) paths
   es: [
-    gc.path('src', '*.es6')
+    gc.source + '*.es6'
   ],
 
   // JS paths concatenated into dist main.min.js
   js: [
-    gc.path('src', 'js_compiled/GConfig.js')
+    gc.source + 'js_compiled/GConfig.js'
   ],
 
   // Docs Folder
   docs: [
-    gc.src
+    gc.source
   ],
 
   // Files to Copy source path vars
@@ -42,9 +45,7 @@ gc.set('sources', {
 
   ]
 
-});
-
-console.log(gc);
+};
 
 gulp.task('default', [
   'clean',
@@ -52,7 +53,6 @@ gulp.task('default', [
   'sass',
   'js'
 ]);
-
 
 gulp.task('dev', [
   'clean',
@@ -64,71 +64,73 @@ gulp.task('dev', [
 
 gulp.task('clean', () => {
   gc.deleteFiles([
-    gc.path('builds', '**/*'),
-    '!' + gc.path('builds', '.gitignore')
+    gc.builds + '**/*',
+    '!' + gc.builds + '.gitignore'
   ])
 });
 
 gulp.task('babel', () => {
 
-  gc.deleteFiles([gc.path('src', 'js_compiled')]);
+  gc.deleteFiles([gc.source + 'js_compiled']);
 
-  return gulp.src(gc.sources.es, {
-      base: gc.path('src')
+  return gulp.src(gc.sourceFiles.es, {
+      base: gc.source
     })
     .pipe(sourcemaps.init())
     .pipe(babel({
-      "presets": ["es2015-node4"],
-      "plugins": [
-        "syntax-flow",
-        "transform-flow-strip-types",
-        "transform-strict-mode",
-        "transform-class-properties",
-        "transform-strict-mode"
+      presets: ['es2015'],
+      plugins: [
+        'syntax-flow',
+        'transform-flow-strip-types',
+        'transform-strict-mode',
+        'transform-class-properties',
+        'transform-strict-mode'
       ]
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(gc.path('src', 'js_compiled')));
+    .pipe(gulp.dest(gc.source + 'js_compiled'));
 });
 
 gulp.task('docs', () => {
 
   gc.deleteFiles([
-    gc.path('docs', '**/*')
+    gc.docs
   ]);
 
-  return gulp.src(gc.sources.docs)
+  return gulp.src(gc.sourceFiles.docs)
     .pipe(esDoc({
-      source: gc.path('src'),
-      destination: gc.path('docs'),
+      source: gc.source,
+      destination: gc.docs,
       autoPrivate: true,
-      includes: ["\\.(es6)$"],
+      includes: ['\\.(es6)$'],
       coverage: true,
       includeSource: true,
       plugins: [
-        {"name": "esdoc-es7-plugin"}
+        {
+          name: 'esdoc-es7-plugin'
+        }
       ]
     }));
 });
 
 gulp.task('js', ['babel'], () => {
 
-  gc.deleteFiles([gc.path('builds', 'main.min.js')]);
+  gc.deleteFiles([gc.builds + 'main.min.js']);
 
-  return gulp.src(gc.sources.js, {
-      base: gc.path('src', 'js_compiled')
+  return gulp.src(gc.sourceFiles.js, {
+      base: gc.source + 'js_compiled'
     })
     .pipe(plumber())
-    .pipe(gulpif(gc.get('env') === 'dev', sourcemaps.init()))
+    .pipe(gulpif(gc.environment === 'dev', sourcemaps.init()))
     .pipe(concat('main.min.js'))
     /*.pipe(uglify({
      comments: 'all'
      }))*/
-    .pipe(gulpif(gc.env === 'dev', sourcemaps.write()))
-    .pipe(gulp.dest(gc.path('builds')));
+    .pipe(gulpif(gc.environment === 'dev', sourcemaps.write()))
+    .pipe(gulp.dest(gc.builds));
 });
 
 gulp.task('createRelease', ['js'], () => {
-  return gulp.src(gc.path('builds', '**/**'))
+  return gulp.src(gc.builds + '**/**')
     .pipe(gulp.dest('./dist'));
 });
