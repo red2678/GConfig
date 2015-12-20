@@ -35,7 +35,7 @@ g$.sourceFiles = {
 
   ]
 };
-g$.showDeleted = false;
+g$.showDeleted = true;
 g$.subFolder = 'v1';
 
 //////////

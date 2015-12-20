@@ -91,14 +91,19 @@ export default (function() {
     }
 
     /**
-     * Capitalizes the first letter of a passed in string
-     * @param {string} str='' - The string to capitalize
-     * @returns {string} - The string to with the first letter capitalized
-     * @example const str = capitalize('my test string');
-     * str === 'My test string';
+     *
+     * @private
+     * @param paths
+     * @param location
      */
-    capitalize(str:string = ''):string {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    _logDeleted(paths:Array<string>):void {
+      if (this.showDeleted) {
+        console.log(
+          '\n********************************************\n' +
+          ('Deleted files/folders: [\n' +
+          paths.join(',\n') +
+          '\n]\n*******************************************'));
+      }
     }
 
     /**
@@ -110,22 +115,6 @@ export default (function() {
      */
     deleteFiles(files:Array<string> = []):void {
       this._logDeleted(del.sync(files));
-    }
-
-    /**
-     *
-     * @private
-     * @param paths
-     * @param location
-     */
-    _logDeleted(paths:Array<string>, location:string = ''):void {
-      if (this.showDeleted) {
-        console.log(
-          '\n******************************* *************\n' +
-          (location ? this.capitalize(location) : '') + 'Deleted files/folders: [\n' +
-          paths.join(',\n') +
-          '\n]\n*******************************************');
-      }
     }
 
     /**

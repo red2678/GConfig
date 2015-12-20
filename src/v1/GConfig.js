@@ -89,11 +89,10 @@ exports.default = (function () {
     }
 
     /**
-     * Capitalizes the first letter of a passed in string
-     * @param {string} str='' - The string to capitalize
-     * @returns {string} - The string to with the first letter capitalized
-     * @example const str = capitalize('my test string');
-     * str === 'My test string';
+     *
+     * @private
+     * @param paths
+     * @param location
      */
 
     /**
@@ -104,11 +103,11 @@ exports.default = (function () {
      */
 
     _createClass(Gc, [{
-      key: "capitalize",
-      value: function capitalize() {
-        var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+      key: "_logDeleted",
+      value: function _logDeleted(paths) {
+        if (this.showDeleted) {
+          console.log('\n********************************************\n' + ('Deleted files/folders: [\n' + paths.join(',\n') + '\n]\n*******************************************'));
+        }
       }
 
       /**
@@ -125,23 +124,6 @@ exports.default = (function () {
         var files = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
         this._logDeleted(_del2.default.sync(files));
-      }
-
-      /**
-       *
-       * @private
-       * @param paths
-       * @param location
-       */
-
-    }, {
-      key: "_logDeleted",
-      value: function _logDeleted(paths) {
-        var location = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-
-        if (this.showDeleted) {
-          console.log('\n******************************* *************\n' + (location ? this.capitalize(location) : '') + 'Deleted files/folders: [\n' + paths.join(',\n') + '\n]\n*******************************************');
-        }
       }
 
       /**
