@@ -1,8 +1,8 @@
 {
   "name": "gconfig",
   "description": "Configuration helper for Gulp",
-  "version": "0.1.4",
-  "main": "dist/main.min.js",
+  "version": "0.1.5",
+  "main": "dist/main.js",
   "author": "red2678",
   "repository": "red2678/gConfig",
   "license": "MIT",
