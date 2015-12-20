@@ -24,8 +24,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // noinspection JSUnusedLocalSymbols
 
 exports.default = (function () {
-
-  var _bowerFolder, _builds, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _sourceFiles, _subFolder;
+  var _bowerFolder, _builds, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
 
   /**
    * @name Gc
@@ -44,8 +43,7 @@ exports.default = (function () {
    *     liveReload : true
    *   });
    */
-
-  var Gc = (function () {
+  return new ((function () {
 
     /**
      * Creates a GConfig object
@@ -85,8 +83,9 @@ exports.default = (function () {
         port: 64033
       };
       _showDeleted = config.showDeleted || false;
-      _sourceFiles = config.sourceFiles || {};
       _subFolder = config.subFolder || process.env.GCONFIG_SRCSUB;
+
+      this.sourceFiles = config.sourceFiles || {};
     }
 
     /**
@@ -95,6 +94,13 @@ exports.default = (function () {
      * @returns {string} - The string to with the first letter capitalized
      * @example const str = capitalize('my test string');
      * str === 'My test string';
+     */
+
+    /**
+     * Default value :: {}<br>
+     * Container for source paths
+     * @type {object}
+     * @example '{}'
      */
 
     _createClass(Gc, [{
@@ -343,24 +349,6 @@ exports.default = (function () {
       }
 
       /**
-       * Default value :: {}<br>
-       * Container for source paths
-       * @type {object}
-       * @example '{}'
-       */
-
-    }, {
-      key: "sourceFiles",
-      get: function get() {
-        return _sourceFiles;
-      },
-      set: function set(config) {
-        if (config) {
-          _sourceFiles = config;
-        }
-      }
-
-      /**
        * Default value :: '<none>'<br>
        * The project site from env.GCONFIG_SRCSUB
        * @type {string}
@@ -380,11 +368,7 @@ exports.default = (function () {
     }]);
 
     return Gc;
-  })();
-
-  var inst = new Gc();
-
-  return inst;
+  })())();
 })();
 
 //# sourceMappingURL=Gc.js.map

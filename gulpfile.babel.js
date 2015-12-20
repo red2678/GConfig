@@ -1,10 +1,8 @@
 /* @flow */
 'use strict';
 
-// GConfig
+// Modules
 import gc from './src/v1/Gc';
-
-// Gulp
 import concat from 'gulp-concat';
 import gulp from 'gulp';
 import eslint from 'gulp-eslint'
@@ -15,48 +13,41 @@ import plumber from 'gulp-plumber';
 import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 
+// Config
 gc.subFolder = 'v1';
 gc.liveReload = false;
 gc.sourceFiles = {
-
-  // ES2015 (ES6) paths
-  es: [
-    gc.source + '*.es6'
-  ],
-
-  // JS paths concatenated into dist main.min.js
   js: [
     gc.source + 'Gc.js'
   ],
-
-  // Docs Folder
   docs: [
     gc.source
   ],
-
-  // Files to Copy source path vars
   copy: [
 
-    // Include only what you need to survive
+    // Take only what you need to survive
 
   ]
-
 };
+
+//////////
 
 gulp.task('default', [
   'clean',
-  'envCheck',
-  'sass',
   'js'
 ]);
 
 gulp.task('dev', [
   'clean',
-  'envCheck',
-  'sass',
   'js',
   'watch'
 ]);
+
+gulp.task('watch', () => {
+  gulp.watch(config.sourceFiles.js, [ 'js']);
+});
+
+//////////
 
 gulp.task('clean', () => {
   gc.deleteFiles([

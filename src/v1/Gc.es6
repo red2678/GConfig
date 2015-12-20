@@ -8,6 +8,7 @@ import del from "del";
 // noinspection JSUnusedLocalSymbols
 export default (function() {
 
+  // Private variables
   var _bowerFolder:string,
     _builds:string,
     _docsFolder:string,
@@ -19,7 +20,6 @@ export default (function() {
     _serverConfig:Object,
     _showDeleted:Boolean,
     _sourceFolder:string,
-    _sourceFiles:Object,
     _subFolder:string;
 
   /**
@@ -39,7 +39,16 @@ export default (function() {
    *     liveReload : true
    *   });
    */
-  class Gc {
+  return new class Gc {
+
+
+    /**
+     * Default value :: {}<br>
+     * Container for source paths
+     * @type {object}
+     * @example '{}'
+     */
+    sourceFiles:Object;
 
     /**
      * Creates a GConfig object
@@ -75,8 +84,9 @@ export default (function() {
           port: 64033
         };
       _showDeleted = config.showDeleted || false;
-      _sourceFiles = config.sourceFiles || {};
       _subFolder = config.subFolder || process.env.GCONFIG_SRCSUB;
+
+      this.sourceFiles = config.sourceFiles || {};
 
     }
 
@@ -301,22 +311,6 @@ export default (function() {
     }
 
     /**
-     * Default value :: {}<br>
-     * Container for source paths
-     * @type {object}
-     * @example '{}'
-     */
-    get sourceFiles():Object {
-      return _sourceFiles;
-    }
-
-    set sourceFiles(config:Object):void {
-      if (config) {
-        _sourceFiles = config;
-      }
-    }
-
-    /**
      * Default value :: '<none>'<br>
      * The project site from env.GCONFIG_SRCSUB
      * @type {string}
@@ -332,8 +326,4 @@ export default (function() {
       }
     }
   }
-
-  const inst = new Gc;
-
-  return inst;
 })()
