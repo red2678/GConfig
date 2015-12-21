@@ -111,4 +111,6 @@ gulp.task('distro', ['prodSetup', 'js'], () => {
     })
     .pipe(plumber())
     .pipe(gulp.dest('./dist/'));
+
+  //g$.deleteFiles(['./builds']);
 });
