@@ -23,9 +23,6 @@
 *.orig
 
 work
-build
-src
-test
 pids
 logs
 results

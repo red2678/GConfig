@@ -1,4 +1,3 @@
-/* @flow */
 "use strict"
 
 // Node Modules
@@ -25,7 +24,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function G$() {
 
   // Private variables
-  var _bowerFolder /*:string*/, _buildsFolder /*:string*/, _docsFolder /*:string*/, _environment /*:string*/, _liveReload /*:boolean*/, _nodeFolder /*:string*/, _rootFolder /*:string*/, _sassStyle /*:string*/, _serverConfig /*:Object*/, _showDeleted /*:boolean*/, _sourceFolder /*:string*/, _subFolder /*:string*/;
+  var _bowerFolder, _buildsFolder, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
   /**
    * @name G$
    * @author 'Anthony Trimble red2678@gmail.com'
@@ -74,8 +73,8 @@ function G$() {
      * @param {!string} [config.subFolder="./_SRC/v1/"] - See {@link subFolder}
      */
 
-    function _class2() /*:G$*/ {
-      var config /*:object*/ = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    function _class2() {
+      var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       _classCallCheck(this, _class2);
 
@@ -115,7 +114,7 @@ function G$() {
 
     _createClass(_class2, [{
       key: "_logDeleted",
-      value: function _logDeleted(paths /*:Array<string>*/) {
+      value: function _logDeleted(paths) {
         if (this.showDeleted) {
           console.log('\n********************************************\n' + ('Deleted files/folders: [\n' + paths.join(',\n') + '\n]\n*******************************************'));
         }
@@ -146,7 +145,7 @@ function G$() {
     }, {
       key: "deleteFiles",
       value: function deleteFiles() {
-        var files /*:Array<string>*/ = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+        var files = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
         this._logDeleted(_del2.default.sync(files));
       }
@@ -166,7 +165,7 @@ function G$() {
 
       // noinspection JSMethodCanBeStatic
       ,
-      set: function set(value /*:string*/) {
+      set: function set(value) {
         if (value) {
           _bowerFolder = value;
         }
@@ -184,7 +183,7 @@ function G$() {
       get: function get() {
         return this.root + _buildsFolder + _path2.default.sep + (this.environment ? this.environment + _path2.default.sep : '') + (this.subFolder ? this.subFolder + _path2.default.sep : '');
       },
-      set: function set(value /*:string*/) {
+      set: function set(value) {
         if (value) {
           _buildsFolder = value;
         }
@@ -202,7 +201,7 @@ function G$() {
       get: function get() {
         return this.root + _docsFolder + _path2.default.sep;
       },
-      set: function set(value /*:string*/) {
+      set: function set(value) {
         if (value) {
           _docsFolder = value;
         }
@@ -220,7 +219,7 @@ function G$() {
       get: function get() {
         return _environment;
       },
-      set: function set(value /*:string*/) {
+      set: function set(value) {
         if (value) {
           _environment = value;
         }
@@ -238,7 +237,7 @@ function G$() {
       get: function get() {
         return _liveReload;
       },
-      set: function set(value /*:Boolean*/) {
+      set: function set(value) {
         if (value) {
           _liveReload = value;
         }
@@ -256,7 +255,7 @@ function G$() {
       get: function get() {
         return this.root + _nodeFolder + _path2.default.sep;
       },
-      set: function set(value /*:string*/) {
+      set: function set(value) {
         if (value) {
           _nodeFolder = value;
         }
@@ -274,7 +273,7 @@ function G$() {
       get: function get() {
         return _rootFolder + _path2.default.sep;
       },
-      set: function set(value /*:string*/) {
+      set: function set(value) {
         if (value) {
           _rootFolder = value;
         }
@@ -293,7 +292,7 @@ function G$() {
       get: function get() {
         return _sassStyle === 'prod' || _sassStyle === 'ppe' ? 'compressed' : 'expanded';
       },
-      set: function set(style /*:string*/) {
+      set: function set(style) {
         if (style) {
           _sassStyle = style;
         }
@@ -316,7 +315,7 @@ function G$() {
       get: function get() {
         return _serverConfig;
       },
-      set: function set(config /*:Object*/) {
+      set: function set(config) {
         if (config) {
           _serverConfig = config;
         }
@@ -334,7 +333,7 @@ function G$() {
       get: function get() {
         return _showDeleted;
       },
-      set: function set(value /*:boolean*/) {
+      set: function set(value) {
         if (value) {
           _showDeleted = value;
         }
@@ -352,7 +351,7 @@ function G$() {
       get: function get() {
         return this.root + _sourceFolder + _path2.default.sep + (this.subFolder ? this.subFolder + _path2.default.sep : '');
       },
-      set: function set(value /*:string*/) {
+      set: function set(value) {
         if (value) {
           _rootFolder = value;
         }
@@ -370,7 +369,7 @@ function G$() {
       get: function get() {
         return _subFolder;
       },
-      set: function set(value /*:string*/) {
+      set: function set(value) {
         if (value) {
           _subFolder = value;
         }
