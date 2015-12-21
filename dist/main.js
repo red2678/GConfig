@@ -100,12 +100,6 @@ function G$() {
     }
 
     /**
-     *
-     * @private
-     * @param paths
-     */
-
-    /**
      * Default value :: {}<br>
      * Container for source paths
      * @type {object}
@@ -113,6 +107,40 @@ function G$() {
      */
 
     _createClass(_class2, [{
+      key: "loadConfig",
+      value: function loadConfig() {
+        var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        _bowerFolder = config.bowerFolder || 'bower_components';
+        _buildsFolder = config.buildsFolder || 'builds';
+        _docsFolder = config.docsFolder || 'docs';
+        _environment = config.environment || process.env.NODE_ENV;
+        _liveReload = config.liveReload || true;
+        _nodeFolder = config.nodeFolder || 'node_modules';
+        _rootFolder = config.rootFolder || '.';
+        _sassStyle = config.sassStyle;
+        _sourceFolder = config.sourceFolder || 'src';
+        _serverConfig = config.serverConfig || {
+          root: this.build + (this.environment ? this.environment + _path2.default.sep : ''),
+          livereload: this.liveReload,
+          port: 64033
+        };
+        _showDeleted = config.showDeleted || false;
+        _subFolder = config.subFolder || process.env.GCONFIG_SRCSUB;
+
+        this.debug = config.debug || false;
+        this.sourceFiles = config.sourceFiles || {};
+
+        return this;
+      }
+
+      /**
+       *
+       * @private
+       * @param paths
+       */
+
+    }, {
       key: "_logDeleted",
       value: function _logDeleted(paths) {
         if (this.showDeleted) {
