@@ -13,17 +13,60 @@ Configuration helper for Gulp
 
 ## Getting Started
 
+This is a personal tool....it is most likely not going to be for you!
+
+I also change it and break it a lot. Have a nice day.
+
 Install it via npm:
 
 ```shell
-npm install gConfig
+npm install gconfig
 ```
 
 And include in your project:
 
 ```javascript
-import gConfig from 'gConfig';
+import g$ from 'gconfig';
 ```
+
+Make a config:
+
+```javascript
+const mainConfig = {};
+
+// Config
+mainConfig.rootFolder = '.';
+mainConfig.sourceFolder = 'src';
+mainConfig.subFolder = 'main-site';
+
+mainConfig.buildsFolder = 'builds';
+
+mainConfig.bowerFolder = 'bower_components';
+mainConfig.docsFolder = 'docs';
+mainConfig.nodeFolder = 'node_modules';
+
+mainConfig.liveReload = false;
+mainConfig.debug = true;
+
+mainConfig.sourceFiles = {
+  js: [],
+  css: []
+}
+```
+
+Then load config
+
+```
+g$.loadConfig(mainConfig).buildInfo();
+```
+
+Now you can make calls:
+
+```
+g$.build === './builds/main-site/'
+g$.src === './src/main-site/'
+```
+
 
 ## License
 
