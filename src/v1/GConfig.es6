@@ -124,7 +124,8 @@ function G$() {
     buildInfo():void {
       if (this.debug) {
         console.log(
-          'Config :: ------------------------------------\n' +
+          'Config :: -----------------------------------\n' +
+          'DS:: ' + this.DS + ' \n' +
           'Bower Folder :: ' + _bowerFolder + ' \n' +
           'Builds Folder :: ' + _buildsFolder + ' \n' +
           'Docs Folder :: ' + _docsFolder + ' \n' +
@@ -158,6 +159,10 @@ function G$() {
       this._logDeleted(del.sync(files));
     }
 
+    get DS():string {
+      return nPath.sep || '/';
+    }
+
     /**
      * Default value :: './bower_components/'<br>
      * The project bower directory
@@ -168,7 +173,7 @@ function G$() {
       return this.root + _bowerFolder + nPath.sep;
     }
 
-   // noinspection JSMethodCanBeStatic
+    // noinspection JSMethodCanBeStatic
     set bower(value:string):void {
       if (value) {
         _bowerFolder = value;

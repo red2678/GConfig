@@ -130,7 +130,7 @@ function G$() {
       key: "buildInfo",
       value: function buildInfo() {
         if (this.debug) {
-          console.log('Config :: ------------------------------------\n' + 'Bower Folder :: ' + _bowerFolder + ' \n' + 'Builds Folder :: ' + _buildsFolder + ' \n' + 'Docs Folder :: ' + _docsFolder + ' \n' + 'Live Reload :: ' + _liveReload + ' \n' + 'Node Folder :: ' + _nodeFolder + ' \n' + 'Root Folder :: ' + _rootFolder + ' \n' + 'Source Folder :: ' + _sourceFolder + ' \n' + 'Show Deleted :: ' + _showDeleted + ' \n' + 'Sub Folder :: ' + _subFolder + ' \n', 'Paths :: -------------------------------------\n' + 'Bower :: ' + this.bower + '\n' + 'Build :: ' + this.build + '\n' + 'Docs  :: ' + this.docs + '\n' + 'Node :: ' + this.node + '\n' + 'Root :: ' + this.root + '\n' + 'Source :: ' + this.source + '\n' + 'Source Files :: ------------------------------\n' + JSON.stringify(this.sourceFiles, null, 4));
+          console.log('Config :: -----------------------------------\n' + 'DS:: ' + this.DS + ' \n' + 'Bower Folder :: ' + _bowerFolder + ' \n' + 'Builds Folder :: ' + _buildsFolder + ' \n' + 'Docs Folder :: ' + _docsFolder + ' \n' + 'Live Reload :: ' + _liveReload + ' \n' + 'Node Folder :: ' + _nodeFolder + ' \n' + 'Root Folder :: ' + _rootFolder + ' \n' + 'Source Folder :: ' + _sourceFolder + ' \n' + 'Show Deleted :: ' + _showDeleted + ' \n' + 'Sub Folder :: ' + _subFolder + ' \n', 'Paths :: -------------------------------------\n' + 'Bower :: ' + this.bower + '\n' + 'Build :: ' + this.build + '\n' + 'Docs  :: ' + this.docs + '\n' + 'Node :: ' + this.node + '\n' + 'Root :: ' + this.root + '\n' + 'Source :: ' + this.source + '\n' + 'Source Files :: ------------------------------\n' + JSON.stringify(this.sourceFiles, null, 4));
         }
       }
 
@@ -148,6 +148,11 @@ function G$() {
         var files = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
         this._logDeleted(_del2.default.sync(files));
+      }
+    }, {
+      key: "DS",
+      get: function get() {
+        return _path2.default.sep || '/';
       }
 
       /**
