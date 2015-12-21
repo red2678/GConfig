@@ -57,14 +57,14 @@ mainConfig.sourceFiles = {
 Then load config
 
 ```
-g$.loadConfig(mainConfig).buildInfo();
+g$.loadConfig(mainConfig)
 ```
 
 Now you can make calls:
 
 ```
 g$.build === './builds/main-site/'
-g$.src === './src/main-site/'
+g$.source === './src/main-site/'
 ```
 
 
