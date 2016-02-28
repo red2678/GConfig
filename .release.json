@@ -15,9 +15,9 @@
   "changelogCommand": "git log --pretty=format:'* %s (%h)' [REV_RANGE]",
   "requireCleanWorkingDir": false,
   "src": {
-    "pushRepo": null,
+    "pushRepo": false,
     "beforeStartCommand": "gulp distro",
-    "beforeStageCommand": false,
+    "beforeStageCommand": "gulp clean",
     "afterReleaseCommand": false
   },
   "dist": {
@@ -28,11 +28,11 @@
       "**/*"
     ],
     "pkgFiles": null,
-    "beforeStageCommand": false,
-    "afterReleaseCommand": false
+    "beforeStageCommand": "gulp distro",
+    "afterReleaseCommand": "gulp clean"
   },
   "npm": {
-    "publish": false,
+    "publish": true,
     "publishPath": ".",
     "tag": "latest",
     "private": false,

@@ -24,6 +24,12 @@ gulp.task('default', [
   'js'
 ]);
 
+gulp.task('release', [
+  'prodSetup',
+  'clean',
+  'js'
+]);
+
 gulp.task('dev', [
   'devSetup',
   'clean',
@@ -49,7 +55,7 @@ gulp.task('prodSetup', () => {
 });
 
 gulp.task('clean', () => {
-  g$.deleteFiles([g$.build + '**/*'])
+  g$.deleteFiles([g$.build, g$.docs])
 });
 
 gulp.task('docs', () => {
@@ -84,7 +90,7 @@ gulp.task('js', () => {
     .pipe(gulp.dest(g$.build));
 });
 
-gulp.task('distro', ['clean', 'prodSetup', 'js', 'docs'], () => {
+gulp.task('distro', ['clean', 'prodSetup', 'js'], () => {
 
   gulp.src(g$.build + '**/*.*', {
       base: g$.build
