@@ -25,6 +25,7 @@ function G$() {
 
   // Private variables
   var _bowerFolder, _buildsFolder, _docsFolder, _environment, _liveReload, _nodeFolder, _rootFolder, _sassStyle, _serverConfig, _showDeleted, _sourceFolder, _subFolder;
+
   /**
    * @name G$
    * @author 'Anthony Trimble red2678@gmail.com'
@@ -108,8 +109,7 @@ function G$() {
 
     _createClass(_class2, [{
       key: "loadConfig",
-      value: function loadConfig() {
-        var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      value: function loadConfig(config) {
 
         _bowerFolder = config.bowerFolder || 'bower_components';
         _buildsFolder = config.buildsFolder || 'builds';

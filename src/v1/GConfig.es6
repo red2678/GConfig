@@ -20,6 +20,7 @@ function G$() {
     _showDeleted:boolean,
     _sourceFolder:string,
     _subFolder:string;
+
   /**
    * @name G$
    * @author 'Anthony Trimble red2678@gmail.com'
@@ -101,7 +102,7 @@ function G$() {
 
     }
 
-    loadConfig(config:object = {}):G$ {
+    loadConfig(config:object):G$ {
 
       _bowerFolder = config.bowerFolder || 'bower_components';
       _buildsFolder = config.buildsFolder || 'builds';

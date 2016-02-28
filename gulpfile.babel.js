@@ -1,4 +1,3 @@
-/* @flow */
 'use strict';
 
 // Modules
@@ -14,28 +13,8 @@ import rename from 'gulp-rename';
 import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 
-// Base Config
-g$.bowerFolder = 'bower_components';
-g$.buildsFolder = 'builds';
-g$.docsFolder = 'docs';
-g$.liveReload = false;
-g$.nodeFolder = 'node_modules';
-g$.rootFolder = '.';
-g$.sourceFolder = 'src';
-g$.subFolder = 'v1';
-
-g$.sourceFiles = {
-  js: [
-    g$.source + '*.js'
-  ],
-  docs: [
-    g$.source
-  ]
-};
-
-
-g$.showDeleted = false;
-g$.debug = true;
+// Config
+import config from './src/config/guplp.config'
 
 //////////
 
@@ -59,13 +38,14 @@ gulp.task('watch', () => {
 //////////
 
 gulp.task('devSetup', () => {
-  g$.environment = 'dev';
-  g$.buildInfo();
+  g$.loadConfig(config)
+    .buildInfo();
 });
 
 gulp.task('prodSetup', () => {
-  g$.environment = 'prod';
-  g$.buildInfo();
+  config.environment = 'prod';
+  g$.loadConfig(config)
+    .buildInfo();
 });
 
 gulp.task('clean', () => {
@@ -86,13 +66,13 @@ gulp.task('docs', () => {
       includes: ['\\.(es6)$'],
       coverage: true,
       includeSource: true,
-      plugins: [{name: 'esdoc-es7-plugin'}]
+      plugins: [{ name: 'esdoc-es7-plugin' }]
     }));
 });
 
 gulp.task('js', () => {
 
-  g$.deleteFiles([g$.build + '**/**']);
+  g$.deleteFiles([g$.build + '**/*.*']);
 
   return gulp.src(g$.sourceFiles.js, {
       base: g$.source
@@ -104,13 +84,11 @@ gulp.task('js', () => {
     .pipe(gulp.dest(g$.build));
 });
 
-gulp.task('distro', ['prodSetup', 'js'], () => {
+gulp.task('distro', ['clean', 'prodSetup', 'js', 'docs'], () => {
 
-  gulp.src(g$.build + '*.*', {
+  gulp.src(g$.build + '**/*.*', {
       base: g$.build
     })
     .pipe(plumber())
     .pipe(gulp.dest('./dist/'));
-
-  //g$.deleteFiles(['./builds']);
 });
