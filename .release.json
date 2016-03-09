@@ -16,7 +16,7 @@
   "requireCleanWorkingDir": false,
   "src": {
     "pushRepo": false,
-    "beforeStartCommand": "gulp distro",
+    "beforeStartCommand": "gulp release",
     "beforeStageCommand": "gulp clean",
     "afterReleaseCommand": false
   },
@@ -28,7 +28,7 @@
       "**/*"
     ],
     "pkgFiles": null,
-    "beforeStageCommand": "gulp distro",
+    "beforeStageCommand": "gulp release",
     "afterReleaseCommand": "gulp clean"
   },
   "npm": {

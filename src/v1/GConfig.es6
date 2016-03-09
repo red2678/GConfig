@@ -102,7 +102,7 @@ function G$() {
 
     }
 
-    loadConfig(config:object):G$ {
+    loadConfig(config:object):void {
 
       _bowerFolder = config.bowerFolder || 'bower_components';
       _buildsFolder = config.buildsFolder || 'builds';
