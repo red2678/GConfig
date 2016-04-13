@@ -4,7 +4,6 @@
 const config = {
   debug: true,
   environment: 'dev',
-  liveReload: false,
   showDeleted: false,
   subFolder: 'v1',
   sourceFiles: {
