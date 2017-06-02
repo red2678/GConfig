@@ -1,31 +1,40 @@
 'use strict';
 
 // Modules
-import g$ from './src/v1/GConfig';
 import concat from 'gulp-concat';
 import gulp from 'gulp';
-import esDoc from 'gulp-esdoc';
-import yuidoc from 'gulp-yuidoc';
+import jsdoc from 'gulp-jsdoc3';
 import gulpif from 'gulp-if';
 import plumber from 'gulp-plumber';
+import runSequence from 'run-sequence';
 import sourcemaps from 'gulp-sourcemaps';
+import babel from 'gulp-babel';
 
-// Config
-import config from './src/config/guplp.config';
+import g$ from './src/v1/GConfig';
 
-gulp.task('default', [
-  'devSetup',
-  'clean',
-  'js'
-]);
+// Configs
+import config from './src/config/gulp.config';
+import JSDOC_CONFIG from './src/config/jsdocConfig.json';
 
-gulp.task('dev', [
-  'devSetup',
-  'clean',
-  'js',
-  'watch'
-]);
 
+// Main Builds Tasks
+gulp.task('default', (callback) => {
+  runSequence('devSetup', 'clean', 'js', callback);
+});
+
+gulp.task('dev', (callback) => {
+  runSequence('devSetup', 'clean', 'js', 'watch', callback);
+});
+
+gulp.task('docs', (callback) => {
+  runSequence('devSetup', 'clean', 'jsdoc', callback);
+});
+
+gulp.task('release', (callback) => {
+  runSequence('clean', 'prodSetup', 'js', callback);
+});
+
+// Individual Tasks
 gulp.task('watch', () => {
   gulp.watch(g$.sourceFiles.js, ['js']);
 });
@@ -37,21 +46,22 @@ gulp.task('devSetup', () => {
 
 gulp.task('prodSetup', () => {
   config.environment = 'prod';
-  g$.loadConfig(config)
-    .buildInfo();
+  g$.showDeleted = true;
+  g$.loadConfig(config);
+  g$.buildInfo();
 });
 
 gulp.task('clean', () => {
   g$.deleteFiles([g$.build, g$.docs]);
 });
 
-gulp.task('docs', () => {
+gulp.task('jsdoc', (cb) => {
   g$.deleteFiles([
     g$.docs
   ]);
 
-  gulp.src('./src/v1/GConfig.js')
-    .pipe(yuidoc());
+  gulp.src(g$.sourceFiles.docs, { read: false })
+    .pipe(jsdoc(cb));
 });
 
 gulp.task('js', () => {
@@ -62,15 +72,9 @@ gulp.task('js', () => {
   })
     .pipe(plumber())
     .pipe(gulpif(g$.environment === 'dev', sourcemaps.init()))
+    .pipe(babel())
     .pipe(concat('main.js'))
     .pipe(gulpif(g$.environment === 'dev', sourcemaps.write()))
-    .pipe(gulp.dest(g$.build));
-});
-
-gulp.task('release', ['clean', 'prodSetup', 'js'], () => {
-  gulp.src(`${g$.build}**/*.*`, {
-    base: g$.build
-  })
-    .pipe(plumber())
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest(`${g$.source}/_compiled`))
+    .pipe(gulpif(g$.environment === 'prod', gulp.dest('./dist/'), gulp.dest(g$.build)));
 });

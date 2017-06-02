@@ -41,3 +41,6 @@ lib
 nbproject
 .idea
 .node_history
+/out/
+/etc/
+/src/v1/_compiled/
