@@ -1,7 +1,7 @@
 /**
  * Created by atrimble on 2/28/16
  */
-const config = {
+export default {
   debug: true,
   environment: 'dev',
   showDeleted: false,
@@ -11,9 +11,7 @@ const config = {
       './src/v1/*.js'
     ],
     docs: [
-      './src/v1/GConfig.js'
+      './src/v1/_compiled/main.js'
     ]
   }
 };
-
-export default config;
