@@ -113,25 +113,29 @@ class G$ {
 
       if (affectsValues) {
 
-        if (typeof value === "object") {
+        switch (typeof value) {
+          case ('string'):
+            value = value.replace(regExp, replacement);
+            break;
 
-          if (Array.isArray(value)) {
-            let newArr = [];
+          case ('object'):
+            if (Array.isArray(value)) {
+              let newArr = [];
 
-            value.forEach(function (element) {
-              newArr.push(element.replace(regExp, replacement));
-            });
+              value.forEach(function (element) {
+                newArr.push(element.replace(regExp, replacement));
+              });
 
-            value = newArr;
-          } else {
-            value = this._objectReplace(value, needle, replacement, affectsKeys, affectsValues);
-          }
+              value = newArr;
+            } else {
+              value = this._objectReplace(value, needle, replacement, affectsKeys, affectsValues);
+            }
 
-        } else if (typeof value === "string") {
-          value = value.replace(regExp, replacement);
+            break;
         }
 
       }
+
       newEntity[newProperty] = value;
     }
 
@@ -157,6 +161,7 @@ class G$ {
         `Config ::
   -----------------------------------
     DS:: ${this.DS} 
+    Debug: ${this._debug.toString()} 
     Bower Folder :: ${this._bowerFolder} 
     Builds Folder :: ${this._buildsFolder} 
     Docs Folder :: ${this._docsFolder} 
@@ -244,4 +249,4 @@ class G$ {
 
 const g$ = new G$();
 
-export default g$;
+export {g$ as default};

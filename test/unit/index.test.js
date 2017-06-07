@@ -1,3 +1,8 @@
 'use strict';
 
-var _chai = require('chai');
+import chai from 'chai';
+import gConfig from '../../dist/main';
+
+let g$ = gConfig;
+
+g$.buildInfo();

@@ -6,6 +6,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -177,25 +178,30 @@ var G$ = function () {
 
         if (affectsValues) {
 
-          if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === "object") {
+          switch (typeof value === 'undefined' ? 'undefined' : _typeof(value)) {
+            case 'string':
+              value = value.replace(regExp, replacement);
+              break;
 
-            if (Array.isArray(value)) {
-              (function () {
-                var newArr = [];
+            case 'object':
+              if (Array.isArray(value)) {
+                (function () {
+                  var newArr = [];
 
-                value.forEach(function (element) {
-                  newArr.push(element.replace(regExp, replacement));
-                });
+                  value.forEach(function (element) {
+                    newArr.push(element.replace(regExp, replacement));
+                  });
 
-                value = newArr;
-              })();
-            } else {
-              value = this._objectReplace(value, needle, replacement, affectsKeys, affectsValues);
-            }
-          } else if (typeof value === "string") {
-            value = value.replace(regExp, replacement);
+                  value = newArr;
+                })();
+              } else {
+                value = this._objectReplace(value, needle, replacement, affectsKeys, affectsValues);
+              }
+
+              break;
           }
         }
+
         newEntity[newProperty] = value;
       }
 
@@ -218,7 +224,7 @@ var G$ = function () {
     key: 'buildInfo',
     value: function buildInfo() {
       if (this._debug) {
-        console.log('Config ::\n  -----------------------------------\n    DS:: ' + this.DS + ' \n    Bower Folder :: ' + this._bowerFolder + ' \n    Builds Folder :: ' + this._buildsFolder + ' \n    Docs Folder :: ' + this._docsFolder + ' \n    Node Folder :: ' + this._nodeFolder + ' \n    Root Folder :: ' + this._rootFolder + ' \n    Source Folder :: ' + this._sourceFolder + ' \n    Show Deleted :: ' + this._showDeleted.toString() + ' \n    Sub Folder :: ' + this._subFolder, 'Paths :: -------------------------------------\n        Bower :: ' + this.bower + '\n        Build :: ' + this.build + '\n        Docs  :: ' + this.docs + '\n        Node :: ' + this.node + '\n        Root :: ' + this.root + '\n        Source :: ' + this.source + '\n        Source Files :: ------------------------------\n        ' + JSON.stringify(this.sourceFiles, null, 4));
+        console.log('Config ::\n  -----------------------------------\n    DS:: ' + this.DS + ' \n    Debug\n    Bower Folder :: ' + this._bowerFolder + ' \n    Builds Folder :: ' + this._buildsFolder + ' \n    Docs Folder :: ' + this._docsFolder + ' \n    Node Folder :: ' + this._nodeFolder + ' \n    Root Folder :: ' + this._rootFolder + ' \n    Source Folder :: ' + this._sourceFolder + ' \n    Show Deleted :: ' + this._showDeleted.toString() + ' \n    Sub Folder :: ' + this._subFolder, 'Paths :: -------------------------------------\n        Bower :: ' + this.bower + '\n        Build :: ' + this.build + '\n        Docs  :: ' + this.docs + '\n        Node :: ' + this.node + '\n        Root :: ' + this.root + '\n        Source :: ' + this.source + '\n        Source Files :: ------------------------------\n        ' + JSON.stringify(this.sourceFiles, null, 4));
       }
     }
   }, {
