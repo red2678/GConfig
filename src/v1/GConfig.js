@@ -160,7 +160,8 @@ class G$ {
       console.log(
         `Config ::
   -----------------------------------
-    DS:: ${this.DS} 
+    DS:: ${this.DS}
+    Environment: ${this._environment},
     Debug: ${this._debug.toString()} 
     Bower Folder :: ${this._bowerFolder} 
     Builds Folder :: ${this._buildsFolder} 
