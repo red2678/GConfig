@@ -20,7 +20,6 @@ import del from 'del';
  * @requires 'del'
  *
  * @example
- * g$.bowerFolder = 'bower_components';
  * g$.buildsFolder = 'builds';
  * g$.docsFolder = 'docs';
  * g$.nodeFolder = 'node_modules';
@@ -35,7 +34,6 @@ import del from 'del';
  */
 class G$ {
   // Private variables
-  _bowerFolder: string;
   _buildsFolder: string;
   _docsFolder: string;
   _nodeFolder: string;
@@ -50,11 +48,30 @@ class G$ {
 
   sourceFiles: Object;
 
+  /**
+   * @constructor
+   * @description Creates a G$ object with default values
+   */
+  constructor(): G$ {
+    this._buildsFolder = 'builds';
+    this._docsFolder = 'docs';
+    this._environment = 'dev';
+    this._DS = nPath.sep || '/';
+    this._nodeFolder = 'node_modules';
+    this._rootFolder = '.';
+    this._sassStyle = 'compressed';
+    this._sourceFolder = 'src';
+    this._showDeleted = false;
+    this._subFolder = '';
+    this._debug = false;
+    this.sourceFiles = {};
+    return this;
+  }
+
   // noinspection JSUnusedGlobalSymbols
   /**
-   * Creates a G$ object
+   * Loads a gconfig into a G$ instance
    * @param {Object} [config={}] - Options to initialize the component with
-   * @param {!string} [config.bowerFolder='./bower_components/'] - See {@link bowerFolder}
    * @param {!string} [config.buildsFolder='./_BUILDS/dev/mainSite/']
    * @param {!string} [config.docsFolder='./_DOCS/'] - See {@link docs}
    * @param {!string} [config.environment='dev'] - See {@link env}
@@ -68,7 +85,6 @@ class G$ {
    */
 
   loadConfig(config: Object = {}): G$ {
-    this._bowerFolder = config.bowerFolder || this._bowerFolder || 'bower_components';
     this._buildsFolder = config.buildsFolder || this._buildsFolder || 'builds';
     this._docsFolder = config.docsFolder || this._docsFolder || 'docs';
     this._environment = config.environment || process.env.NODE_ENV || 'dev';
@@ -161,18 +177,16 @@ class G$ {
         `Config ::
   -----------------------------------
     DS:: ${this.DS}
-    Environment: ${this._environment},
-    Debug: ${this._debug.toString()} 
-    Bower Folder :: ${this._bowerFolder} 
+    Environment: ${this._environment}
+    Debug: ${this._debug.toString()}  
     Builds Folder :: ${this._buildsFolder} 
     Docs Folder :: ${this._docsFolder} 
     Node Folder :: ${this._nodeFolder} 
     Root Folder :: ${this._rootFolder} 
     Source Folder :: ${this._sourceFolder} 
     Show Deleted :: ${this._showDeleted.toString()} 
-    Sub Folder :: ${this._subFolder}`,
-        `Paths :: -------------------------------------
-        Bower :: ${this.bower}
+    Sub Folder :: ${this._subFolder}
+        Paths :: -------------------------------------
         Build :: ${this.build}
         Docs  :: ${this.docs}
         Node :: ${this.node}
@@ -190,10 +204,6 @@ class G$ {
 
   get DS(): string {
     return this._DS;
-  }
-
-  get bower(): string {
-    return this.root + this._bowerFolder + nPath.sep;
   }
 
   get build(): string {

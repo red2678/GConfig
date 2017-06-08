@@ -4,7 +4,6 @@
 export default {
   debug: true,
   environment: 'dev',
-  showDeleted: false,
   subFolder: 'v1',
   sourceFiles: {
     js: [
