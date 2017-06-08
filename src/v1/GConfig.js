@@ -247,6 +247,4 @@ class G$ {
   }
 }
 
-const g$ = new G$();
-
-export {g$ as default};
+export let g$ = new G$();
