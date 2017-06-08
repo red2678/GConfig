@@ -4,6 +4,6 @@ node_js:
   - 6
 install: true
 before_script:
-  - npm install -g gulp-cli themekit  @shopify/slate @shopify/themekit
+  - npm install -g gulp-cli @shopify/slate @shopify/themekit
 script: gulp
 
