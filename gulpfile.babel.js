@@ -10,7 +10,7 @@ import runSequence from 'run-sequence';
 import sourcemaps from 'gulp-sourcemaps';
 import babel from 'gulp-babel';
 
-import g$ from './src/v1/GConfig';
+import { g$ } from './src/v1/GConfig';
 
 // Configs
 import config from './src/config/gulp.config';
