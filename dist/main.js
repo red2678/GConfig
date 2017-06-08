@@ -37,7 +37,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @requires 'del'
  *
  * @example
- * g$.bowerFolder = 'bower_components';
  * g$.buildsFolder = 'builds';
  * g$.docsFolder = 'docs';
  * g$.nodeFolder = 'node_modules';
@@ -51,47 +50,117 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * g$.subFolder = 'v1';
  */
 var G$ = function () {
+
+  /**
+   * @constructor
+   * @description Creates a G$ object with default values
+   */
+
+  // Private variables
   function G$() {
     _classCallCheck(this, G$);
+
+    function _ref(_id) {
+      if (!(_id instanceof G$)) {
+        throw new TypeError('Function return value violates contract.\n\nExpected:\nG$\n\nGot:\n' + _inspect(_id));
+      }
+
+      return _id;
+    }
+
+    this._buildsFolder = 'builds';
+
+    if (!(typeof this._buildsFolder === 'string')) {
+      throw new TypeError('Value of "this._buildsFolder" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._buildsFolder));
+    }
+
+    this._docsFolder = 'docs';
+
+    if (!(typeof this._docsFolder === 'string')) {
+      throw new TypeError('Value of "this._docsFolder" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._docsFolder));
+    }
+
+    this._environment = 'dev';
+
+    if (!(typeof this._environment === 'string')) {
+      throw new TypeError('Value of "this._environment" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._environment));
+    }
+
+    this._DS = _path2.default.sep || '/';
+
+    if (!(typeof this._DS === 'string')) {
+      throw new TypeError('Value of "this._DS" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._DS));
+    }
+
+    this._nodeFolder = 'node_modules';
+
+    if (!(typeof this._nodeFolder === 'string')) {
+      throw new TypeError('Value of "this._nodeFolder" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._nodeFolder));
+    }
+
+    this._rootFolder = '.';
+
+    if (!(typeof this._rootFolder === 'string')) {
+      throw new TypeError('Value of "this._rootFolder" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._rootFolder));
+    }
+
+    this._sassStyle = 'compressed';
+
+    if (!(typeof this._sassStyle === 'string')) {
+      throw new TypeError('Value of "this._sassStyle" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._sassStyle));
+    }
+
+    this._sourceFolder = 'src';
+
+    if (!(typeof this._sourceFolder === 'string')) {
+      throw new TypeError('Value of "this._sourceFolder" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._sourceFolder));
+    }
+
+    this._showDeleted = false;
+    this._subFolder = '';
+
+    if (!(typeof this._subFolder === 'string')) {
+      throw new TypeError('Value of "this._subFolder" violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(this._subFolder));
+    }
+
+    this._debug = false;
+    this.sourceFiles = {};
+    return _ref(this);
   }
+
+  // noinspection JSUnusedGlobalSymbols
+  /**
+   * Loads a gconfig into a G$ instance
+   * @param {Object} [config={}] - Options to initialize the component with
+   * @param {!string} [config.buildsFolder='./_BUILDS/dev/mainSite/']
+   * @param {!string} [config.docsFolder='./_DOCS/'] - See {@link docs}
+   * @param {!string} [config.environment='dev'] - See {@link env}
+   * @param {!string} [config.nodeFolder='./node_modules/']
+   * @param {!string} [config.rootFolder='./'] - See {@link rootFolder}
+   * @param {!boolean} [config.showDeleted='false'] - See {@link showDeleted}
+   * @param {!string} [config.site='mainSite'] - See {@link site}
+   * @param {!object} [config.sources='{}'] - See {@link sources}
+   * @param {!string} [config.sourceFolder='./_SRC/dev/'] - See {@link sourceFolder}
+   * @param {!string} [config.subFolder='./_SRC/v1/'] - See {@link subFolder}
+   */
 
   _createClass(G$, [{
     key: 'loadConfig',
-
-
-    // noinspection JSUnusedGlobalSymbols
-    /**
-     * Creates a G$ object
-     * @param {Object} [config={}] - Options to initialize the component with
-     * @param {!string} [config.bowerFolder='./bower_components/'] - See {@link bowerFolder}
-     * @param {!string} [config.buildsFolder='./_BUILDS/dev/mainSite/']
-     * @param {!string} [config.docsFolder='./_DOCS/'] - See {@link docs}
-     * @param {!string} [config.environment='dev'] - See {@link env}
-     * @param {!string} [config.nodeFolder='./node_modules/']
-     * @param {!string} [config.rootFolder='./'] - See {@link rootFolder}
-     * @param {!boolean} [config.showDeleted='false'] - See {@link showDeleted}
-     * @param {!string} [config.site='mainSite'] - See {@link site}
-     * @param {!object} [config.sources='{}'] - See {@link sources}
-     * @param {!string} [config.sourceFolder='./_SRC/dev/'] - See {@link sourceFolder}
-     * @param {!string} [config.subFolder='./_SRC/v1/'] - See {@link subFolder}
-     */
-
     value: function loadConfig() {
       var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      function _ref(_id) {
-        if (!(_id instanceof G$)) {
-          throw new TypeError('Function return value violates contract.\n\nExpected:\nG$\n\nGot:\n' + _inspect(_id));
+      function _ref2(_id2) {
+        if (!(_id2 instanceof G$)) {
+          throw new TypeError('Function return value violates contract.\n\nExpected:\nG$\n\nGot:\n' + _inspect(_id2));
         }
 
-        return _id;
+        return _id2;
       }
 
       if (!(config instanceof Object)) {
         throw new TypeError('Value of argument "config" violates contract.\n\nExpected:\nObject\n\nGot:\n' + _inspect(config));
       }
 
-      this._bowerFolder = config.bowerFolder || this._bowerFolder || 'bower_components';
       this._buildsFolder = config.buildsFolder || this._buildsFolder || 'builds';
       this._docsFolder = config.docsFolder || this._docsFolder || 'docs';
       this._environment = config.environment || process.env.NODE_ENV || 'dev';
@@ -119,7 +188,7 @@ var G$ = function () {
         throw new TypeError('Value of "this.sourceFiles" violates contract.\n\nExpected:\nObject\n\nGot:\n' + _inspect(this.sourceFiles));
       }
 
-      return _ref(this);
+      return _ref2(this);
     }
 
     /**
@@ -132,8 +201,6 @@ var G$ = function () {
      * @param affectsKeys[optional=true] Whether keys should be replaced
      * @param affectsValues[optional=true] Whether values should be replaced
      */
-
-    // Private variables
 
   }, {
     key: '_objectReplace',
@@ -224,7 +291,7 @@ var G$ = function () {
     key: 'buildInfo',
     value: function buildInfo() {
       if (this._debug) {
-        console.log('Config ::\n  -----------------------------------\n    DS:: ' + this.DS + '\n    Environment: ' + this._environment + ',\n    Debug: ' + this._debug.toString() + ' \n    Bower Folder :: ' + this._bowerFolder + ' \n    Builds Folder :: ' + this._buildsFolder + ' \n    Docs Folder :: ' + this._docsFolder + ' \n    Node Folder :: ' + this._nodeFolder + ' \n    Root Folder :: ' + this._rootFolder + ' \n    Source Folder :: ' + this._sourceFolder + ' \n    Show Deleted :: ' + this._showDeleted.toString() + ' \n    Sub Folder :: ' + this._subFolder, 'Paths :: -------------------------------------\n        Bower :: ' + this.bower + '\n        Build :: ' + this.build + '\n        Docs  :: ' + this.docs + '\n        Node :: ' + this.node + '\n        Root :: ' + this.root + '\n        Source :: ' + this.source + '\n        Source Files :: ------------------------------\n        ' + JSON.stringify(this.sourceFiles, null, 4));
+        console.log('Config ::\n  -----------------------------------\n    DS:: ' + this.DS + '\n    Environment: ' + this._environment + '\n    Debug: ' + this._debug.toString() + '  \n    Builds Folder :: ' + this._buildsFolder + ' \n    Docs Folder :: ' + this._docsFolder + ' \n    Node Folder :: ' + this._nodeFolder + ' \n    Root Folder :: ' + this._rootFolder + ' \n    Source Folder :: ' + this._sourceFolder + ' \n    Show Deleted :: ' + this._showDeleted.toString() + ' \n    Sub Folder :: ' + this._subFolder + '\n        Paths :: -------------------------------------\n        Build :: ' + this.build + '\n        Docs  :: ' + this.docs + '\n        Node :: ' + this.node + '\n        Root :: ' + this.root + '\n        Source :: ' + this.source + '\n        Source Files :: ------------------------------\n        ' + JSON.stringify(this.sourceFiles, null, 4));
       }
     }
   }, {
@@ -244,19 +311,6 @@ var G$ = function () {
     key: 'DS',
     get: function get() {
       return this._DS;
-    }
-  }, {
-    key: 'bower',
-    get: function get() {
-      function _ref7(_id7) {
-        if (!(typeof _id7 === 'string')) {
-          throw new TypeError('Function return value violates contract.\n\nExpected:\nstring\n\nGot:\n' + _inspect(_id7));
-        }
-
-        return _id7;
-      }
-
-      return _ref7(this.root + this._bowerFolder + _path2.default.sep);
     }
   }, {
     key: 'build',
