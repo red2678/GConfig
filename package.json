@@ -1,7 +1,7 @@
 {
   "name": "gconfig",
   "description": "Configuration helper for Gulp",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "main": "./dist/main.js",
   "author": "red2678",
   "repository": "https://github.com/red2678/GConfig",
