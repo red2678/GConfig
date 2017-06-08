@@ -1,11 +1,10 @@
 # gConfig
 
-![Build Status](https://img.shields.io/travis/red2678/gConfig.svg)
-![Coverage](https://img.shields.io/coveralls/red2678/gConfig.svg)
-![npm version](https://img.shields.io/npm/v/gConfig.svg)
-![dependencies](https://img.shields.io/david/red2678/gConfig.svg)
-![dev dependencies](https://img.shields.io/david/dev/red2678/gConfig.svg)
-![License](https://img.shields.io/npm/l/gConfig.svg)
+![Build Status](https://travis-ci.org/red2678/GConfig.svg?branch=master)
+![issues](https://img.shields.io/github/issues/red2678/GConfig.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+
 
 Configuration helper for Gulp
 
